@@ -2,6 +2,7 @@
 import React, { ChangeEvent, useState } from "react";
 import { MdOutlineClear } from "react-icons/md";
 import { ProductProps } from "../../../../type";
+import { useCreateProductMutation } from "@/features/slices/productSlice";
 
 function usePage() {
   const [name, setName] = useState<ProductProps>({
@@ -14,6 +15,8 @@ function usePage() {
     category: "",
   });
 
+  const [createProduct, {isLoading: loadingProductCreation, error: errorProductCreation}] = useCreateProductMutation()
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === "isNew") {
       setName({ ...name, isNew: e.target.checked });
@@ -22,9 +25,14 @@ function usePage() {
     }
   };
 
-  const handleSubmit = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = async (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    
+    try {
+      const result = await createProduct(name)
+      console.log(result)
+    } catch (error:any) {
+      console.log(error)
+    }
   };
 
   return (
@@ -41,7 +49,10 @@ function usePage() {
       </div>
       <hr />
       <div className=" w-full font-semibold text-amazon_blue border border-t-black p-2">
-        <form className="grid place-items-start w-full flex-shrink-0 gap-1" onSubmit={e => handleSubmit(e)}>
+        <form
+          className="grid place-items-start w-full flex-shrink-0 gap-1"
+          onSubmit={(e) => handleSubmit(e)}
+        >
           <label htmlFor="title">
             Product Name <span className="text-red-400">*</span>
           </label>
