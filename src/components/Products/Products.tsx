@@ -1,11 +1,18 @@
+"use client";
 import React from "react";
 import { ProductProps } from "../../../type";
 import Image from "next/image";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { AiOutlineHeart } from "react-icons/ai";
 import PriceRounder from "@/utils/PriceRounder";
+import { addToCart } from "@/features/slices/cartSlice";
+import { useDispatch } from "react-redux";
 
 function Products({ productsList }: any) {
+  const dispatch = useDispatch();
+  const handleAddToCart = (product: any) => {
+    dispatch(addToCart(product));
+  };
   return (
     <div className="w-[95%] mx-auto p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 place-items-center">
       {productsList.map((product: ProductProps) => (
@@ -30,7 +37,7 @@ function Products({ productsList }: any) {
           </div>
           <p className="absolute top-2 text-sm font-bold hover:underline right-2 tracking-wide animate-bounce">
             !save:{" "}
-            <PriceRounder amount={Number(product.oldPrice - product.price)} />
+            <PriceRounder amount={Number(product.oldPrice! - product.price)} />
           </p>
           <hr className="mb-3" />
           <div>
@@ -48,7 +55,10 @@ function Products({ productsList }: any) {
               {product.description.substring(0, 120)}...
             </p>
           </div>
-          <button className="p-2 w-[90%] mx-auto my-2 rounded-md hover:bg-amazon_yellow hover:text-black font-semibold duration-300 bg-amazon_blue text-white">
+          <button
+            className="p-2 w-[90%] mx-auto my-2 rounded-md hover:bg-amazon_yellow hover:text-black font-semibold duration-300 bg-amazon_blue text-white"
+            onClick={() => handleAddToCart(product)}
+          >
             add to cart
           </button>
         </div>

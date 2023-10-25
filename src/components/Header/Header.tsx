@@ -1,23 +1,25 @@
+"use client";
 import React from "react";
 import logo from "@/Images/amazon_logo.png";
-import avatar from "@/Images/avatar.png";
 import Image from "next/image";
 import { MdLocationOn } from "react-icons/md";
 import { AiOutlineSearch } from "react-icons/ai";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { IoMdArrowDropdown } from "react-icons/io";
-import Link from "next/link";
+import { useSelector } from "react-redux";
 
+import Link from "next/link";
 function Header() {
+  const { cartItems } = useSelector((state: any) => state.cart);
   return (
-    <div className="flex w-full justify-between items-center bg-amazon_blue h-20 text-lightText gap-5 px-3">
+    <div className="flex w-full justify-between items-center bg-amazon_blue h-20 text-lightText gap-5 px-3 sticky top-0 z-50 bg-opacity-90">
       {/* logo */}
-      <Link href='/'>
-      <Image
-        src={logo}
-        alt="amazon-logo"
-        className="h-full w-20 sm:w-20 border border-transparent hover:border-white duration-300 cursor-pointer"
-      />
+      <Link href="/">
+        <Image
+          src={logo}
+          alt="amazon-logo"
+          className="h-full w-20 sm:w-20 border border-transparent hover:border-white duration-300 cursor-pointer"
+        />
       </Link>
       {/* deliver to */}
       <div className="p-3 items-center gap-1 text-xs hidden lg:flex border border-transparent hover:border-white duration-300 cursor-pointer h-full">
@@ -60,14 +62,14 @@ function Header() {
         <p className="font-bold text-white">&Favorite</p>
       </div>
       {/* cart */}
-      <Link href='/cart'>
-      <div className="flex flex-col justify-center items-center p-3 text-white gap-1 text-sm relative border border-transparent hover:border-white duration-300 cursor-pointer h-full">
-        <AiOutlineShoppingCart className="text-lg sm:text-3xl" />
-        cart
-        <div className="absolute bg-amazon_yellow text-black w-4 text-xs text-center h-4 rounded-full">
-          0
+      <Link href="/cart">
+        <div className="flex flex-col justify-center items-center p-3 text-white gap-1 text-sm relative border border-transparent hover:border-white duration-300 cursor-pointer h-full">
+          <AiOutlineShoppingCart className="text-lg sm:text-3xl" />
+          cart
+          <div className="absolute bg-amazon_yellow text-black w-4 text-xs text-center h-4 rounded-full">
+            {cartItems.length}
+          </div>
         </div>
-      </div>
       </Link>
     </div>
   );

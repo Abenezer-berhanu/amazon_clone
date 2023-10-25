@@ -2,7 +2,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 
 function HeaderFooter() {
   return (
-    <div className="flex p-3 text-sm items-center gap-3 text-white bg-amazon_light">
+    <div className="flex p-3 text-sm items-center gap-3 text-white bg-amazon_light sticky top-20 z-50">
       <p className="justify-center flex items-center gap-1 border border-transparent hover:border-white cursor-pointer duration300">
         <AiOutlineMenu />
         All
