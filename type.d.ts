@@ -8,4 +8,5 @@ export interface ProductProps {
   image: string;
   isNew: boolean;
   category: string;
+  qty?:number
 }

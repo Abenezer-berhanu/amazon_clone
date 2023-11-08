@@ -9,7 +9,7 @@ function Products({ productsList }: any) {
   return (
     <div className="w-[95%] mx-auto p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 place-items-center">
       {productsList.map((products: ProductProps) => (
-        <Product products={products} key={products._id} amount={amount}/>
+        <Product products={products} key={products._id} />
       ))}
     </div>
   );

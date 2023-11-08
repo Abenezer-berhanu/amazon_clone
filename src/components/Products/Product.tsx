@@ -12,7 +12,7 @@ import {
 } from "react-icons/ai";
 import { useState } from "react";
 
-function Product({ products, amount }: any) {
+function Product({ products }: any) {
   const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
   const handleAddToCart = (product: any) => {
@@ -59,7 +59,7 @@ function Product({ products, amount }: any) {
       </div>
       <div className="w-[100%] grid place-items-center gap-2 sm:flex items-center">
         <button
-          className="p-2 h-2/3 w-[50%] mx-auto my-2 rounded-md hover:bg-amazon_yellow hover:text-black font-semibold duration-300 bg-amazon_blue text-white"
+          className="p-2 h-2/3 w-[50%] mx-auto my-2 rounded-md hover:bg-amazon_yellow hover:text-black sm:font-semibold text-xs sm:text-base duration-300 bg-amazon_blue text-white"
           onClick={() => handleAddToCart(products)}
         >
           add to cart
