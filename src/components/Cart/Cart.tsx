@@ -5,23 +5,15 @@ import Image from "next/image";
 import New from "../New/New";
 import Prices from "../Prices/Prices";
 import { useSelector } from "react-redux";
-import { useRegisterUserMutation } from "@/features/slices/userSlice";
+import { useGetProductByIdQuery } from "@/features/slices/productSlice";
 
 function useCart({ products }: any) {
+  
   const { cartItems } = useSelector((state: any) => state.cart);
-
-  const [registerUser, { isLoading, error }] = useRegisterUserMutation();
-
-  const handleClick = async () => {
-    try {
-      const res = await registerUser({
-        userName: "abenu",
-        email: "abenu@email.com",
-      });
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
+  
+  const {isLoading, data} = useGetProductByIdQuery('654c6ddce159b426fbf96956')
+  const handleClick = async (id: string) => {
+    console.log(data)
   };
 
   return (
@@ -59,8 +51,19 @@ function useCart({ products }: any) {
               </div>
               <p className="text-sm font-sans">{product.description}</p>
             </div>
+
+            <button
+          className="bg-amazon_blue hover:bg-amazon_yellow duration-300 rounded-md w-fit text-md flex-grow-0 text-white px-2 py-1 hover:text-black"
+          onClick={() => handleClick(product._id)}
+        >
+          {isLoading ? "loading" : "checkout"}
+        </button>
+
           </div>
+
+          
         ))}
+        
       </div>
       <div className="border border-l-black col-span-2 p-2 flex mdl:flex-col items-center justify-around mdl:items-start mdl:justify-normal">
         <h1 className="text-lg font-semibold font-sans">
@@ -76,7 +79,7 @@ function useCart({ products }: any) {
         <hr />
         <button
           className="bg-amazon_blue hover:bg-amazon_yellow duration-300 rounded-md w-fit text-md flex-grow-0 text-white px-2 py-1 hover:text-black"
-          onClick={handleClick}
+          // onClick={() => handleClick(product._id)}
         >
           {isLoading ? "loading" : "checkout"}
         </button>
