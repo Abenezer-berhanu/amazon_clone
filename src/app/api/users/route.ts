@@ -10,6 +10,7 @@ export const POST = async (request: NextRequest) => {
     const newUser = await userModel.create(reqBody);
     return NextResponse.json({ msg: newUser, success: true }, { status: 200 });
   } catch (error: any) {
+    console.log(error)
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 };

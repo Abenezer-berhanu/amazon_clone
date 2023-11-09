@@ -7,8 +7,19 @@ connectDB();
 export const POST = async (request: NextRequest) => {
   try {
     const reqBody = await request.json();
-    return NextResponse.json({ msg: reqBody, success: true }, { status: 200 });
+    const product = await productModel.create({});
+    return NextResponse.json({ msg: product, success: true }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 };
+
+export const GET = async () => {
+  try {
+    const products = await productModel.find({})
+    return NextResponse.json({ msg: products, success: true }, { status: 200 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+};
+

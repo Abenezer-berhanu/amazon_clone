@@ -16,7 +16,7 @@ function useCart({ products }: any) {
     try {
       const res = await registerUser({
         userName: "abenu",
-        email: "abenu@emil.com",
+        email: "abenu@email.com",
       });
       console.log(res);
     } catch (error) {

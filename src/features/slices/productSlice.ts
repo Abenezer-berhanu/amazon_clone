@@ -1,4 +1,5 @@
 "use client";
+import { ProductProps } from "../../../type";
 import { apiSlice } from "./apiSlice";
 
 export const productApiSlice = apiSlice.injectEndpoints({
@@ -11,7 +12,14 @@ export const productApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Product"],
     }),
+    getAllProduct: builder.query<any, void>({
+      query: () => ({
+        url: "/api/products",
+      }),
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
-export const { useCreateProductMutation } = productApiSlice;
+export const { useCreateProductMutation, useGetAllProductQuery } =
+  productApiSlice;

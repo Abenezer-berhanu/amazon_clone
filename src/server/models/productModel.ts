@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 
-const { Schema } = mongoose;
 
-const proudctSchema = new Schema(
+const proudctSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -27,9 +26,8 @@ const proudctSchema = new Schema(
       type: String,
       required: true,
     },
-    isNew: {
+    isProductNew: {
       type: Boolean,
-      required: true,
     },
     category: {
       type: String,
