@@ -13,14 +13,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className="font-bodyFont bg-gray-300 bg-opacity-40"
+        className="font-bodyFont bg-gray-300 bg-opacity-40 relative min-h-screen"
         suppressHydrationWarning={true}
       >
         <RTKProvider>
-          <Header />
+         <Header />
           <HeaderFooter />
+          <div className="pb-20">
           {children}
-          <Footer />
+          </div>
+        <div className="absolute bottom-0 z-50 w-full">
+         <Footer />
+         </div>
         </RTKProvider>
       </body>
     </html>

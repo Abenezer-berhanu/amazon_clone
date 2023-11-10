@@ -1,16 +1,16 @@
 "use client";
 import { AiOutlineHeart } from "react-icons/ai";
 import { addToCart } from "@/features/slices/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Prices from "../Prices/Prices";
 import SaveAmount from "../SaveAmount/SaveAmount";
 import Image from "next/image";
 import {
   AiOutlineMinus,
   AiOutlinePlus,
-  AiOutlineShoppingCart,
 } from "react-icons/ai";
 import { useState } from "react";
+import Link from "next/link";
 
 function Product({ products }: any) {
   const [qty, setQty] = useState(1);
@@ -24,23 +24,32 @@ function Product({ products }: any) {
     setQty(qty + 1);
   };
 
+  const handleDec = () => {
+    setQty((prevState): any => {
+      if (prevState > 1) {
+        return prevState - 1;
+      } else {
+        return prevState;
+      }
+    });
+  };
+
   return (
     <div
       key={products._id}
       className="w-full bg-white rounded-md gap-2 group text-black p-4 relative grid border border-slate-300"
     >
-      <Image
-        src={products.image}
-        alt={products.title}
-        width={300}
-        height={200}
-        className="w-full scale-90 h-[200px] object-contain hover:scale-100 duration-300"
-      />
-      <div className="hidden absolute translate-x-20 group-hover:translate-x-0 group-hover:flex transition-transform duration-300 right-2 shadow-sm shadow-slate-900 h-[20%] bg-white top-[40%] border border-slate-300 w-10 flex-col justify-between items-center rounded-md">
-        <span className="w-full border-b-[1px] h-[50%] border-slate-500 flex justify-center items-center hover:bg-amazon_yellow text-2xl">
-          <AiOutlineShoppingCart />
-        </span>
-        <span className="w-full h-[50%] flex justify-center items-center hover:bg-amazon_yellow text-2xl">
+      <Link href={`/product/${products._id}`}>
+        <Image
+          src={products.image}
+          alt={products.title}
+          width={300}
+          height={200}
+          className="w-full scale-90 h-[200px] object-contain hover:scale-100 duration-300"
+        />
+      </Link>
+      <div className="hidden absolute group-hover:flex left-0 shadow-sm shadow-slate-900 h-[10%] bg-white top-0 border border-slate-300 w-10 justify-between items-center rounded-md">
+        <span className="w-full h-full flex justify-center items-center hover:bg-amazon_yellow text-2xl duration-300">
           <AiOutlineHeart />
         </span>
       </div>
@@ -51,7 +60,9 @@ function Product({ products }: any) {
       <hr className="mb-3" />
       <div>
         <p className="text-sm text-slate-500">{products.category}</p>
-        <p className="font-semibold tracking-wider">{products.title}</p>
+        <Link href={`/product/${products._id}`}>
+          <p className="font-semibold tracking-wider">{products.title}</p>
+        </Link>
         <Prices oldPrice={products.oldPrice} price={products.price} />
         <p className="text-sm text-slate-500">
           {products.description.substring(0, 120)}...
@@ -64,16 +75,16 @@ function Product({ products }: any) {
         >
           add to cart
         </button>
-        <div className="w-[50%] flex justify-around items-center h-2/3  ">
+        <div className="w-[50%] flex justify-around items-center h-2/3 gap-2 sm:gap-0">
           <button
-            className="bg-amazon_yellow hover:bg-amazon_yellow_hover rounded-sm duration-200 p-2"
-            onClick={() => {}}
+            className="bg-amazon_yellow hover:bg-amazon_yellow_hover rounded-sm duration-200 p-2 text-xs sm:text-sm"
+            onClick={handleDec}
           >
             <AiOutlineMinus />
           </button>
           {qty}
           <button
-            className="bg-amazon_yellow hover:bg-amazon_yellow_hover rounded-sm duration-200 p-2"
+            className="bg-amazon_yellow hover:bg-amazon_yellow_hover rounded-sm duration-200 p-2 text-xs sm:text-sm"
             onClick={handleInc}
           >
             <AiOutlinePlus />
