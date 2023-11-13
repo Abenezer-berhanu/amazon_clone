@@ -4,10 +4,22 @@ import { ProductProps } from "../../../type";
 import Image from "next/image";
 import New from "../New/New";
 import Prices from "../Prices/Prices";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { AiFillDelete } from "react-icons/ai";
+import { removeFromCart } from "@/features/slices/cartSlice";
+import {Country, State, City} from 'country-state-city'
 
 function useCart({ products }: any) {
   const { cartItems } = useSelector((state: any) => state.cart);
+  const dispatch = useDispatch();
+
+  const handleDeleteFromCart = (id: string) => {
+    dispatch(removeFromCart(id));
+  };
+
+  const handleClick = async () => {
+    console.log(Country.getCountryByCode('AMH'))
+  };
 
   return (
     <div className="w-[90%] m-auto gap-2 py-3 flex flex-col-reverse mdl:grid grid-cols-6">
@@ -15,7 +27,7 @@ function useCart({ products }: any) {
         <h1 className="text-2xl">Shipping Cart</h1>
         <hr className="border border-slate-500 mt-2" />
         {products.map((product: ProductProps) => (
-          <div key={product._id} className="p-3 grid grid-cols-4">
+          <div key={product._id} className="p-3 grid grid-cols-4 relative">
             <div className="col-span-1">
               <Image
                 src={product.image}
@@ -36,7 +48,6 @@ function useCart({ products }: any) {
                 {product.title}
               </h1>
               {product.isNew && <New />}
-
               <div className="flex gap-1 font-serif font-semibold">
                 Price:{" "}
                 <Prices oldPrice={product.oldPrice} price={product.price} /> X
@@ -44,6 +55,10 @@ function useCart({ products }: any) {
               </div>
               <p className="text-sm font-sans">{product.description}</p>
             </div>
+            <AiFillDelete
+              className="text-amazon_black hover:text-slate-700 duration-300 text-xl absolute right-5 top-5"
+              onClick={() => handleDeleteFromCart(product._id)}
+            />
           </div>
         ))}
       </div>
@@ -61,7 +76,7 @@ function useCart({ products }: any) {
         <hr />
         <button
           className="bg-amazon_blue hover:bg-amazon_yellow duration-300 rounded-md w-fit text-md flex-grow-0 text-white px-2 py-1 hover:text-black"
-          // onClick={() => handleClick(product._id)}
+          onClick={handleClick}
         >
           Checkout
         </button>

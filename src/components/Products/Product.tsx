@@ -5,10 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Prices from "../Prices/Prices";
 import SaveAmount from "../SaveAmount/SaveAmount";
 import Image from "next/image";
-import {
-  AiOutlineMinus,
-  AiOutlinePlus,
-} from "react-icons/ai";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useState } from "react";
 import Link from "next/link";
 
