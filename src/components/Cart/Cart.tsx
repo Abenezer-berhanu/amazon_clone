@@ -7,18 +7,15 @@ import Prices from "../Prices/Prices";
 import { useSelector, useDispatch } from "react-redux";
 import { AiFillDelete } from "react-icons/ai";
 import { removeFromCart } from "@/features/slices/cartSlice";
-import {Country, State, City} from 'country-state-city'
+import Link from "next/link";
+import Button from "../Button/Button";
 
 function useCart({ products }: any) {
-  const { cartItems } = useSelector((state: any) => state.cart);
+  const { cartItems,additionalFees } = useSelector((state: any) => state.cart);
   const dispatch = useDispatch();
 
   const handleDeleteFromCart = (id: string) => {
     dispatch(removeFromCart(id));
-  };
-
-  const handleClick = async () => {
-    console.log(Country.getCountryByCode('AMH'))
   };
 
   return (
@@ -68,18 +65,26 @@ function useCart({ products }: any) {
         </h1>
         <h1 className="font-semibold text-md font-sans border border-b-black m-2">
           Total Price: $
-          {cartItems.reduce(
-            (acc: number, cur: ProductProps) => cur.price * cur.qty! + acc,
-            0
-          )}
+          {additionalFees.totalPrice}
         </h1>
         <hr />
-        <button
-          className="bg-amazon_blue hover:bg-amazon_yellow duration-300 rounded-md w-fit text-md flex-grow-0 text-white px-2 py-1 hover:text-black"
-          onClick={handleClick}
-        >
-          Checkout
-        </button>
+        <div className="grid gap-1 mb-2">
+        <p className="font-semibold text-sm font-sans ml-2">
+          Items Price: $
+          {additionalFees.itemsPrice}
+        </p>
+        <p className="font-semibold text-sm font-sans ml-2">
+          Tax: $
+          {additionalFees.tax}
+        </p>
+        <p className="font-semibold text-sm font-sans ml-2">
+          Delivery fee: $
+          {additionalFees.shippingFee}
+        </p>
+        </div>
+        <Link href="/cart/shipping">
+          <Button />
+        </Link>
       </div>
     </div>
   );
