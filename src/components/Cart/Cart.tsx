@@ -11,7 +11,7 @@ import Link from "next/link";
 import Button from "../Button/Button";
 
 function useCart({ products }: any) {
-  const { cartItems,additionalFees } = useSelector((state: any) => state.cart);
+  const { cartItems, additionalFees } = useSelector((state: any) => state.cart);
   const dispatch = useDispatch();
 
   const handleDeleteFromCart = (id: string) => {
@@ -64,23 +64,19 @@ function useCart({ products }: any) {
           Subtotal ({cartItems.length}) Items
         </h1>
         <h1 className="font-semibold text-md font-sans border border-b-black m-2">
-          Total Price: $
-          {additionalFees.totalPrice}
+          Total Price: ${additionalFees.totalPrice}
         </h1>
         <hr />
-        <div className="grid gap-1 mb-2">
-        <p className="font-semibold text-sm font-sans ml-2">
-          Items Price: $
-          {additionalFees.itemsPrice}
-        </p>
-        <p className="font-semibold text-sm font-sans ml-2">
-          Tax: $
-          {additionalFees.tax}
-        </p>
-        <p className="font-semibold text-sm font-sans ml-2">
-          Delivery fee: $
-          {additionalFees.shippingFee}
-        </p>
+        <div className="grid gap-1">
+          <p className="font-semibold text-sm font-sans ml-2">
+            Items Price: ${additionalFees.itemsPrice}
+          </p>
+          <p className="font-semibold text-sm font-sans ml-2">
+            Tax: ${additionalFees.tax}
+          </p>
+          <p className="font-semibold text-sm font-sans ml-2">
+            Delivery fee: ${additionalFees.shippingFee}
+          </p>
         </div>
         <Link href="/cart/shipping">
           <Button />

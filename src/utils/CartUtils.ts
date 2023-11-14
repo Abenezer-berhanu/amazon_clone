@@ -23,4 +23,6 @@ export const updateCartItems = (state: any) => {
       Number(state.additionalFees.shippingFee) +
       Number(state.additionalFees.tax)
   );
+
+  localStorage.setItem('ab_am_ca_rt', JSON.stringify(state))
 };
