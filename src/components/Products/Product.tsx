@@ -8,8 +8,10 @@ import Image from "next/image";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function Product({ products }: any) {
+  const router = useRouter()
   const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
   const handleAddToCart = (product: any) => {
@@ -36,7 +38,7 @@ function Product({ products }: any) {
       key={products._id}
       className="w-full bg-white rounded-md gap-2 group text-black p-4 relative grid border border-slate-300"
     >
-      <Link href={`/product/${products._id}`}>
+      <div onClick={() => router.push(`/product/${products._id}`)}>
         <Image
           src={products.image}
           alt={products.title}
@@ -44,11 +46,11 @@ function Product({ products }: any) {
           height={200}
           className="w-full scale-90 h-[200px] object-contain hover:scale-100 duration-300"
         />
-      </Link>
+      </div>
       <div className="hidden absolute group-hover:flex left-0 shadow-sm shadow-slate-900 h-[10%] bg-white top-0 border border-slate-300 w-10 justify-between items-center rounded-md">
-        <span className="w-full h-full flex justify-center items-center hover:bg-amazon_yellow text-2xl duration-300">
+        <div className="w-full h-full flex justify-center items-center hover:bg-amazon_yellow text-2xl duration-300">
           <AiOutlineHeart />
-        </span>
+        </div>
       </div>
       <SaveAmount
         oldPrice={Number(products.oldPrice)}
@@ -57,9 +59,9 @@ function Product({ products }: any) {
       <hr className="mb-3" />
       <div>
         <p className="text-sm text-slate-500">{products.category}</p>
-        <Link href={`/product/${products._id}`}>
+        <div onClick={() => router.push(`/product/${products._id}`)}>
           <p className="font-semibold tracking-wider">{products.title}</p>
-        </Link>
+        </div>
         <Prices oldPrice={products.oldPrice} price={products.price} />
         <p className="text-sm text-slate-500">
           {products.description.substring(0, 120)}...

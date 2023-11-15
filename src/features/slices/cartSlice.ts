@@ -1,9 +1,13 @@
+"use client";
 import { createSlice } from "@reduxjs/toolkit";
 import { ProductProps } from "../../../type";
 import { updateCartItems } from "@/utils/CartUtils";
 
-const initialState = localStorage.getItem("ab_am_ca_rt")
-  ? JSON.parse(localStorage.getItem("ab_am_ca_rt")!)
+let isItems:any = localStorage.getItem("ab_am_ca_rt");
+
+
+const initialState = isItems
+  ? JSON.parse(isItems)
   : {
       cartItems: <any>[],
       additionalFees: {
@@ -42,7 +46,7 @@ const cartSlice = createSlice({
     },
     addShippingInfo: (state, action) => {
       state.shippingAddress = action.payload;
-      localStorage.setItem('ab_am_ca_rt', JSON.stringify(state))
+      localStorage.setItem("ab_am_ca_rt", JSON.stringify(state));
     },
   },
 });

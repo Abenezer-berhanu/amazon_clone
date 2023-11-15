@@ -5,7 +5,7 @@ import { ProductProps } from "../../../../type";
 import { useCreateProductMutation } from "@/features/slices/productSlice";
 
 function usePage() {
-  const [name, setName] = useState<ProductProps>({
+  const [name, setName]= useState<ProductProps>({
     title: "",
     description: "",
     price: 0,
@@ -147,3 +147,5 @@ function usePage() {
 }
 
 export default usePage;
+
+

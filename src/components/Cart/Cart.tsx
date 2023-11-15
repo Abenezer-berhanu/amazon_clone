@@ -7,8 +7,8 @@ import Prices from "../Prices/Prices";
 import { useSelector, useDispatch } from "react-redux";
 import { AiFillDelete } from "react-icons/ai";
 import { removeFromCart } from "@/features/slices/cartSlice";
-import Link from "next/link";
 import Button from "../Button/Button";
+import Link from "next/link";
 
 function useCart({ products }: any) {
   const { cartItems, additionalFees } = useSelector((state: any) => state.cart);
@@ -78,9 +78,9 @@ function useCart({ products }: any) {
             Delivery fee: ${additionalFees.shippingFee}
           </p>
         </div>
-        <Link href="/cart/shipping">
-          <Button />
-        </Link>
+         <Link href={'/cart/shipping'}>
+         <Button />
+         </Link>
       </div>
     </div>
   );

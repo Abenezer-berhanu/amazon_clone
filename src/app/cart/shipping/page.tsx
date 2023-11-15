@@ -4,9 +4,11 @@ import React, { useEffect, useState } from "react";
 import { addShippingInfo } from "@/features/slices/cartSlice";
 import { useDispatch } from "react-redux";
 import Button from "@/components/Button/Button";
+import { useRouter } from "next/navigation";
 
 function usePage() {
   const dispatch = useDispatch()
+  const router = useRouter()
   const [userCountryInfo, setUserCountryInfo]: any = useState("Ethiopia");
   const [userCountry, setUserCountry]= useState("");
   const [paymentMethod, setPaymentMethod] = useState("chapa");
@@ -15,7 +17,7 @@ function usePage() {
   const [userCity, setUserCity] = useState("");
   const [cities, setCities]: any = useState([]);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const shippingInfo = {
       userCountry,
@@ -25,11 +27,18 @@ function usePage() {
       paymentMethod
     }
     dispatch(addShippingInfo(shippingInfo))
+    const paymentChoise = JSON.parse(localStorage.getItem('ab_am_ca_rt')!).shippingAddress.paymentMethod
+    if(paymentChoise === 'chapa'){
+      router.push('/cart/shipping/payment/chapaPay')
+    }else if(paymentChoise === 'stripe'){
+      router.push('/cart/shipping/payment/stripePay')
+    }
   };
 
   useEffect(() => {
     setUserCountry(userCountryInfo.name)
   },[userCountryInfo])
+
   return (
     <div className="flex flex-col justify-center gap-4 p-5 items-center">
       <div className="max-w-[900px]">
@@ -60,7 +69,7 @@ function usePage() {
           <p className="text-lg font-bold tracking-wide">Delivery Address: </p>
           <div className="py-2 text-black text-sm">
             <form onSubmit={handleSubmit}>
-              <p className="font-semibold">country: </p>
+              <label className="font-semibold">country: </label>
               <select
                 onChange={(e) => {
                   setUserCountryInfo(Country.getCountryByCode(e.target.value));
@@ -94,7 +103,6 @@ function usePage() {
                   );
                 })}
               </select>
-
               <p className="font-semibold pt-3">Phone Number: </p>
               <div className="relative">
                 <p className="text-xs px-1 py-1 absolute left-0 top-0 border-r-2 border-slate-600 min-w-[40px] bg-slate-600 bg-opacity-30 h-full"><small>+{userCountryInfo.phonecode}</small></p>

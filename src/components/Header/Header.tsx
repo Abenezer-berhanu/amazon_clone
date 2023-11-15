@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 
 import Link from "next/link";
 function Header() {
-  const { cartItems } = useSelector((state: any) => state.cart);
+  const { cartItems,shippingAddress } = useSelector((state: any) => state.cart);
   return (
     <div className="flex w-full justify-between items-center bg-amazon_blue h-20 text-lightText gap-5 px-3 sticky top-0 z-50 bg-opacity-90">
       {/* logo */}
@@ -25,7 +25,10 @@ function Header() {
       <div className="p-3 items-center gap-1 text-xs hidden mdl:flex border border-transparent hover:border-white duration-300 cursor-pointer h-full">
         <MdLocationOn className="text-2xl" />
         <div>
-          Deliver to <p className="font-black text-white uppercase">usa</p>
+          Deliver to{" "}
+          <p className="font-black text-white uppercase">
+            { shippingAddress.userCity || "home"}
+          </p>
         </div>
       </div>
       {/* search */}
@@ -50,7 +53,7 @@ function Header() {
 
       <div className="text-xs border border-transparent hover:border-white duration-300 cursor-pointer h-full flex flex-col p-3 justify-center">
         <p className="flex items-center text-white sm:font-bold">
-          Hello. sign in
+          Hello. <Link href={'/'}>SignIn</Link>
           <IoMdArrowDropdown className="text-lg" />
         </p>
       </div>

@@ -17,14 +17,12 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <RTKProvider>
-         <Header />
+          <Header />
           <HeaderFooter />
-          <div className="pb-20">
-          {children}
+          <div className="pb-20">{children}</div>
+          <div className="absolute bottom-0 z-50 w-full">
+            <Footer />
           </div>
-        <div className="absolute bottom-0 z-50 w-full">
-         <Footer />
-         </div>
         </RTKProvider>
       </body>
     </html>
