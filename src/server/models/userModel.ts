@@ -16,9 +16,19 @@ const userSchema = new mongoose.Schema<any>(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      enum: ["admin", "seller", "buyer"],
+      default: "buyer",
+      required: true,
+    },
   },
   { timestamps: true }
 );
+
+userSchema.methods.matchPassword = async function (enteredPassword: any) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {

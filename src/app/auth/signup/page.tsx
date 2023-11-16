@@ -9,6 +9,9 @@ import {
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Loader from "@/components/Loader/Loader";
+import Radio from "@/components/Radio/Radio";
+import { RadioGroup, RadioButton } from "react-radio-buttons";
+
 interface LoginFormProps {
   onSubmit: (
     username: string,
@@ -22,6 +25,7 @@ interface userDataInterface {
   username: string;
   password: string;
   email: string;
+  role: string;
 }
 
 const LoginForm: React.FC<LoginFormProps> = () => {
@@ -29,11 +33,13 @@ const LoginForm: React.FC<LoginFormProps> = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
   const [error, setError] = useState("");
   const userData: userDataInterface = {
     username,
     password,
     email,
+    role,
   };
   const [checkUserExistence, { isLoading }] = useUserExistMutation();
   const [registerUser, { isLoading: registerLoading }] =
@@ -53,8 +59,8 @@ const LoginForm: React.FC<LoginFormProps> = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!username || !password || !email) {
-      return setError("credential required");
+    if (!username || !password || !email || !role) {
+      return setError("all credential required");
     }
     try {
       const { data: userExistence }: any = await checkUserExistence(userData);
@@ -72,6 +78,10 @@ const LoginForm: React.FC<LoginFormProps> = () => {
       setError(error);
       console.log(error);
     }
+  };
+
+  const handleOptionChange = (value: string) => {
+    setRole(value);
   };
 
   const handleGoogleLogin = () => {
@@ -135,6 +145,21 @@ const LoginForm: React.FC<LoginFormProps> = () => {
               required
             />
           </div>
+          <div className="my-2 text-slate-950">
+            <RadioGroup onChange={handleOptionChange} required>
+              <RadioButton value="seller">
+                <p className="text-slate-950">Seller</p>
+              </RadioButton>
+              <RadioButton value="buyer">
+                <p className="text-slate-950">Buyer</p>
+              </RadioButton>
+            </RadioGroup>
+          </div>
+          {error && (
+            <div>
+              <p className="text-sm text-red-400">{error}</p>
+            </div>
+          )}
           <button
             type="submit"
             disabled={isLoading || registerLoading ? true : false}
