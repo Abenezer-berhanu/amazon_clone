@@ -9,7 +9,6 @@ import {
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Loader from "@/components/Loader/Loader";
-import Radio from "@/components/Radio/Radio";
 import { RadioGroup, RadioButton } from "react-radio-buttons";
 
 interface LoginFormProps {
@@ -75,7 +74,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
         router.push("/auth/signin");
       }
     } catch (error: any) {
-      setError(error);
+      setError(error.message);
       console.log(error);
     }
   };

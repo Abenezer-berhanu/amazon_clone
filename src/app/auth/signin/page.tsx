@@ -37,7 +37,8 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     const {data:isUserExist}:any = await checkIfExist(userInfo)
     if(isUserExist.msg){
       const res = await signUserIn(userInfo)
-      console.log(res)
+      dispatch(setCredentials(res))
+      router.push('/')
     }else{
       toast.error('No Account has found please Register')
       router.push('/auth/signup')

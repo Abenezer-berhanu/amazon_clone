@@ -38,7 +38,7 @@ export const POST = async (request: NextRequest) => {
           { status: 200 }
         );
       } else {
-        return NextResponse.json({ msg: "invalid password" }, { status: 200 });
+        return NextResponse.json({ msg: "invalid password" }, { status: 400 });
       }
     } else {
       return NextResponse.json({ user: "invalid credential" }, { status: 404 });
