@@ -1,31 +1,43 @@
-'use client'
-import { useState } from 'react';
-import Link from 'next/link';
+"use client";
+import { useState } from "react";
+import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
-import { useUserExistMutation } from '@/features/slices/userSlice';
-
-
+import {
+  useRegisterUserMutation,
+  useUserExistMutation,
+} from "@/features/slices/userSlice";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import Loader from "@/components/Loader/Loader";
 interface LoginFormProps {
-  onSubmit: (username: string, password: string, email: string, error: any) => void;
+  onSubmit: (
+    username: string,
+    password: string,
+    email: string,
+    error: any
+  ) => void;
 }
 
 interface userDataInterface {
-  username:string,
-  password: string,
-  email: string
+  username: string;
+  password: string;
+  email: string;
 }
 
 const LoginForm: React.FC<LoginFormProps> = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState("")
-  const userData:userDataInterface = {
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const userData: userDataInterface = {
     username,
     password,
-    email
-  }
-  const [checkUserExistence, {isLoading, isError}] = useUserExistMutation()
+    email,
+  };
+  const [checkUserExistence, { isLoading }] = useUserExistMutation();
+  const [registerUser, { isLoading: registerLoading }] =
+    useRegisterUserMutation();
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -39,17 +51,26 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     setEmail(e.target.value);
   };
 
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(!username || !password || !email){
-      return setError('credential required')
+    if (!username || !password || !email) {
+      return setError("credential required");
     }
     try {
-      const userExistence = await checkUserExistence(userData)
-      console.log(userExistence)
-    } catch (error:any) {
-      setError(error)
-      console.log(error)
+      const { data: userExistence }: any = await checkUserExistence(userData);
+      if (userExistence.message) {
+        toast.error("User Already registered please login");
+        setInterval(() => {
+          router.push("/auth/signin");
+        }, 3000);
+      } else {
+        await registerUser(userData);
+        toast.success("Registered successfully please login");
+        router.push("/auth/signin");
+      }
+    } catch (error: any) {
+      setError(error);
+      console.log(error);
     }
   };
 
@@ -57,19 +78,16 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     // Handle Google login
   };
 
-
-
-  
-
-
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-white">
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-bold text-center">sign up</h1>
         <form onSubmit={handleSubmit} className="mt-6">
           <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700"
+            >
               Full Name:
             </label>
             <input
@@ -84,7 +102,10 @@ const LoginForm: React.FC<LoginFormProps> = () => {
           </div>
 
           <div>
-            <label htmlFor="username" className="block text-sm font-medium mt-2 text-gray-700">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium mt-2 text-gray-700"
+            >
               Email:
             </label>
             <input
@@ -99,7 +120,10 @@ const LoginForm: React.FC<LoginFormProps> = () => {
           </div>
 
           <div className="mt-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
               Password
             </label>
             <input
@@ -111,17 +135,12 @@ const LoginForm: React.FC<LoginFormProps> = () => {
               required
             />
           </div>
-          {error && (
-            <div>
-              <p className='text-red-400 my-2 text-sm'>{error}</p>
-            </div>
-          )}
           <button
             type="submit"
-            disabled={error ? true : false}
+            disabled={isLoading || registerLoading ? true : false}
             className="w-full py-2 mt-6 font-medium text-white bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-75"
           >
-            Sign up
+            {registerLoading && isLoading ? "waiting.." : "Sign up"}
           </button>
         </form>
         <div className="flex items-center justify-center mt-6">

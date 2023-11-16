@@ -16,7 +16,8 @@ export const productApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
     })
-   })
+   }),
+   
   }),
 });
 

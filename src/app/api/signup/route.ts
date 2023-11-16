@@ -7,10 +7,16 @@ connectDB();
 export const POST = async (request: NextRequest) => {
   try {
     const reqBody = await request.json();
-    const newUser = await userModel.create(reqBody);
-    return NextResponse.json({ msg: newUser, success: true }, { status: 201 });
+    const { username, email, password } = reqBody;
+    const newUser = new userModel({
+      username,
+      email,
+      password,
+    });
+
+    const savedNewUser = await newUser.save();
+    return NextResponse.json({ success: true }, { status: 201 });
   } catch (error: any) {
-    console.log(error)
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 };

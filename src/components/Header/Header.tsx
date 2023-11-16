@@ -14,6 +14,9 @@ function Header() {
   const { cartItems, shippingAddress } = useSelector(
     (state: any) => state.cart
   );
+  const {data} = useSelector(( state:any ) => state.auth)
+
+  console.log(data)
   return (
     <div className="flex w-full justify-between items-center bg-amazon_blue h-20 text-lightText gap-5 px-3 sticky top-0 z-50 bg-opacity-90">
       {/* logo */}
@@ -24,6 +27,7 @@ function Header() {
           className="h-full w-[100px] sm:w-20 border border-transparent hover:border-white duration-300 cursor-pointer"
         />
       </Link>
+
       {/* deliver to */}
       <div className="p-3 items-center gap-1 text-xs hidden mdl:flex h-full">
         <MdLocationOn className="text-2xl" />
@@ -34,6 +38,7 @@ function Header() {
           </p>
         </div>
       </div>
+
       {/* search */}
       <div className="flex-1 w-full h-full items-center relative hidden mdl:flex">
         <input
@@ -60,7 +65,7 @@ function Header() {
       {/* user */}
       <div className="text-xs cursor-pointer h-full flex flex-col p-3 justify-center">
         <div className="flex items-center text-white sm:font-bold">
-        <Link href={"/auth/signin"}>Log in</Link>
+        {data ? data.msg.username : 'login'}
         </div>
       </div>
     </div>
