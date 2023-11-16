@@ -14,7 +14,6 @@ export default function RootLayout({
     <html lang="en">
       <body
         className="font-bodyFont bg-gray-300 bg-opacity-40 relative min-h-screen"
-        suppressHydrationWarning={true}
       >
         <RTKProvider>
           <Header />

@@ -5,12 +5,15 @@ import Image from "next/image";
 import { MdLocationOn } from "react-icons/md";
 import { AiOutlineSearch } from "react-icons/ai";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { IoMdArrowDropdown } from "react-icons/io";
 import { useSelector } from "react-redux";
-
 import Link from "next/link";
+
+
 function Header() {
-  const { cartItems,shippingAddress } = useSelector((state: any) => state.cart);
+
+  const { cartItems, shippingAddress } = useSelector(
+    (state: any) => state.cart
+  );
   return (
     <div className="flex w-full justify-between items-center bg-amazon_blue h-20 text-lightText gap-5 px-3 sticky top-0 z-50 bg-opacity-90">
       {/* logo */}
@@ -22,12 +25,12 @@ function Header() {
         />
       </Link>
       {/* deliver to */}
-      <div className="p-3 items-center gap-1 text-xs hidden mdl:flex border border-transparent hover:border-white duration-300 cursor-pointer h-full">
+      <div className="p-3 items-center gap-1 text-xs hidden mdl:flex h-full">
         <MdLocationOn className="text-2xl" />
         <div>
           Deliver to{" "}
           <p className="font-black text-white uppercase">
-            { shippingAddress.userCity || "home"}
+            {shippingAddress.userCity || "home"}
           </p>
         </div>
       </div>
@@ -42,27 +45,7 @@ function Header() {
           <AiOutlineSearch />
         </div>
       </div>
-      {/* user */}
-      {/* <div>
-        <Image src={avatar} alt="user image" className=""/>
-        <div>
-            <p>Name</p>
-            <p>email</p>
-        </div>
-      </div> */}
 
-      <div className="text-xs border border-transparent hover:border-white duration-300 cursor-pointer h-full flex flex-col p-3 justify-center">
-        <p className="flex items-center text-white sm:font-bold">
-          Hello. <Link href={'/'}>SignIn</Link>
-          <IoMdArrowDropdown className="text-lg" />
-        </p>
-      </div>
-
-      {/* marked &favorite
-      <div className="text-xs border border-transparent hover:border-white duration-300 cursor-pointer flex flex-col justify-center p-3 h-full">
-        <p>Marked</p>
-        <p className="font-bold text-white">&Favorite</p>
-      </div> */}
       {/* cart */}
       <Link href="/cart">
         <div className="flex flex-col justify-center items-center p-3 text-white gap-1 text-sm relative border border-transparent hover:border-white duration-300 cursor-pointer h-full">
@@ -73,6 +56,13 @@ function Header() {
           </div>
         </div>
       </Link>
+
+      {/* user */}
+      <div className="text-xs cursor-pointer h-full flex flex-col p-3 justify-center">
+        <div className="flex items-center text-white sm:font-bold">
+        <Link href={"/auth/signin"}>Log in</Link>
+        </div>
+      </div>
     </div>
   );
 }

@@ -5,14 +5,20 @@ export const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
    registerUser : builder.mutation({
     query: (data) => ({
-        url: "/api/products",
+        url: "/api/signup",
         method: "POST",
         body: data,
     }),
-    invalidatesTags: ['Users']
+   }),
+   userExist: builder.mutation({
+    query: (data) => ({
+        url: "/api/userExists",
+        method: "POST",
+        body: data,
+    })
    })
   }),
 });
 
-export const {useRegisterUserMutation} = productApiSlice
+export const {useRegisterUserMutation, useUserExistMutation} = productApiSlice
 
