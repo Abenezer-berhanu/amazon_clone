@@ -58,7 +58,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     }
     try {
       const { data: userExistence }: any = await checkUserExistence(userData);
-      if (userExistence.message) {
+      if (userExistence.msg) {
         toast.error("User Already registered please login");
         setInterval(() => {
           router.push("/auth/signin");
