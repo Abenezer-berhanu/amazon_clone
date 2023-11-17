@@ -1,5 +1,4 @@
 "use client";
-import { ProductProps } from "../../../type";
 import { apiSlice } from "./apiSlice";
 
 export const productApiSlice = apiSlice.injectEndpoints({
@@ -10,7 +9,6 @@ export const productApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["Product"],
     }),
     getAllProduct: builder.query<any, void>({
       query: () => ({

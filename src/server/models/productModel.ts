@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 
-const proudctSchema = new mongoose.Schema(
+const productSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -38,4 +38,4 @@ const proudctSchema = new mongoose.Schema(
 );
 
 export default mongoose.models.Product ||
-  mongoose.model("Product", proudctSchema);
+  mongoose.model("Product", productSchema);

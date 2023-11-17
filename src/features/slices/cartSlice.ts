@@ -3,8 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ProductProps } from "../../../type";
 import { updateCartItems } from "@/utils/CartUtils";
 
-let isItems:any = localStorage.getItem("ab_am_ca_rt");
-
+let isItems: any = localStorage.getItem("ab_am_ca_rt");
 
 const initialState = isItems
   ? JSON.parse(isItems)
@@ -48,8 +47,20 @@ const cartSlice = createSlice({
       state.shippingAddress = action.payload;
       localStorage.setItem("ab_am_ca_rt", JSON.stringify(state));
     },
+    removeAllCart: (state) => {
+      localStorage.removeItem("ab_am_ca_rt");
+      state.cartItems = [];
+      (state.additionalFees = {
+        totalPrice: 0,
+        itemsPrice: 0,
+        tax: 0,
+        shippingFee: 0,
+      }),
+        (state.shippingAddress = {});
+    },
   },
 });
 
-export const { addToCart, removeFromCart, addShippingInfo } = cartSlice.actions;
+export const { addToCart, removeFromCart, addShippingInfo, removeAllCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;

@@ -12,9 +12,13 @@ function Form() {
   const [email, setEmail] = useState("");
   const [amount, setAmount] = useState(paymentAmount);
 
+  const handleOrder = () => {
+    console.log("put order here")
+  }
+
 
   return (
-    <form method="POST" action="https://api.chapa.co/v1/hosted/pay">
+    <form method="POST" action="https://api.chapa.co/v1/hosted/pay" onSubmit={handleOrder}>
       <div className="grid gap-2 w-full place-items-center m-auto border border-t-2 shadow-md p-2">
         <h2 className="text-xl mdl:text-3xl text-slate-700 font-bold tracking-wider font-sans text-center m-2">
           Pay

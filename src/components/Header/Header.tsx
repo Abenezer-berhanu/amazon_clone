@@ -13,9 +13,10 @@ import { RxAvatar } from "react-icons/rx";
 
 function Header() {
   const router = useRouter()
-  const { cartItems, shippingAddress } = useSelector(
+  const { cartItems, shippingAddress} = useSelector(
     (state: any) => state.cart
   );
+  
   const {userInfo} = useSelector(( state:any ) => state.auth)
 
   return (

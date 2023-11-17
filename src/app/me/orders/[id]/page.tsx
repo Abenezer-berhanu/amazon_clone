@@ -5,7 +5,7 @@ function page() {
     const params = useParams()
     const { id:userId } = params
   return (
-    <div>{userId}</div>
+    <div></div>
   )
 }
 

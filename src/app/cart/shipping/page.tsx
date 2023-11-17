@@ -5,39 +5,42 @@ import { addShippingInfo } from "@/features/slices/cartSlice";
 import { useDispatch } from "react-redux";
 import Button from "@/components/Button/Button";
 import { useRouter } from "next/navigation";
+import SetOrder from "../../../utils/setOrder";
+
 
 function usePage() {
-  const dispatch = useDispatch()
-  const router = useRouter()
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [userCountryInfo, setUserCountryInfo]: any = useState("Ethiopia");
-  const [userCountry, setUserCountry]= useState("");
-  const [paymentMethod, setPaymentMethod] = useState("chapa");
+  const [userCountry, setUserCountry] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
   const [userName, setUserName] = useState("");
   const [userPhone, setUserPhone] = useState("");
   const [userCity, setUserCity] = useState("");
   const [cities, setCities]: any = useState([]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const shippingInfo = {
       userCountry,
       userName,
       userPhone,
       userCity,
-      paymentMethod
-    }
-    dispatch(addShippingInfo(shippingInfo))
-    const paymentChoise = JSON.parse(localStorage.getItem('ab_am_ca_rt')!).shippingAddress.paymentMethod
-    if(paymentChoise === 'chapa'){
-      router.push('/cart/shipping/payment/chapaPay')
-    }else if(paymentChoise === 'stripe'){
-      router.push('/cart/shipping/payment/stripePay')
+      paymentMethod,
+    };
+    dispatch(addShippingInfo(shippingInfo));
+    const paymentChoise = JSON.parse(localStorage.getItem("ab_am_ca_rt")!)
+      .shippingAddress.paymentMethod;
+    if (paymentChoise === "chapa") {
+      router.push("/cart/shipping/payment/chapaPay");
+    } else if (paymentChoise === "stripe") {
+      router.push("/cart/shipping/payment/stripePay");
     }
   };
 
   useEffect(() => {
-    setUserCountry(userCountryInfo.name)
-  },[userCountryInfo])
+    setUserCountry(userCountryInfo.name);
+  }, [userCountryInfo]);
 
   return (
     <div className="flex flex-col justify-center gap-4 p-5 items-center">
@@ -49,6 +52,9 @@ function usePage() {
             className="border-none outline-none text-sm font-semibold tracking-wider text-amazon_light"
             onChange={(e) => setPaymentMethod(e.target.value)}
           >
+            <option value="" className="text-xs font-semibold tracking-wider">
+              select payment method
+            </option>
             <option
               value="chapa"
               className="text-xs font-semibold tracking-wider"
@@ -60,6 +66,12 @@ function usePage() {
               className="text-xs font-semibold tracking-wider"
             >
               Stripe
+            </option>
+            <option
+              value="cash"
+              className="text-xs font-semibold tracking-wider"
+            >
+              After receive
             </option>
           </select>
         </div>
@@ -105,7 +117,9 @@ function usePage() {
               </select>
               <p className="font-semibold pt-3">Phone Number: </p>
               <div className="relative">
-                <p className="text-xs px-1 py-1 absolute left-0 top-0 border-r-2 border-slate-600 min-w-[40px] bg-slate-600 bg-opacity-30 h-full"><small>+{userCountryInfo.phonecode}</small></p>
+                <p className="text-xs px-1 py-1 absolute left-0 top-0 border-r-2 border-slate-600 min-w-[40px] bg-slate-600 bg-opacity-30 h-full">
+                  <small>+{userCountryInfo.phonecode}</small>
+                </p>
                 <input
                   type="tel"
                   required
@@ -116,18 +130,18 @@ function usePage() {
               </div>
               <small className="text-green-700 font-semibold pt-2 mb-3">
                 <i>
-                  <p>Format: 123-45-678-9</p>
+                  <p>Format: 9xxxxxxxxxx</p>
                 </i>
               </small>
-              <p className="font-semibold pt-3">Receiver Name:</p>
+              <p className="font-semibold pt-3">Receiver ID Name:</p>
               <input
                 type="text"
                 required
-                placeholder="Receiver Name"
+                placeholder="Receiver ID Name"
                 className="outline-none px-2 py-1 indent-1 text-xs w-full "
                 onChange={(e) => setUserName(e.target.value)}
               />
-             <Button />
+              {paymentMethod !== 'cash' ? <Button text={"Pay"}/> : <SetOrder clicked={() => router.push('/')}/>}
             </form>
           </div>
         </div>
