@@ -31,7 +31,7 @@ export default function SetOrder({ clicked }: any) {
       phoneNumber: shippingAddress.userPhone,
       receiverName: shippingAddress.userName,
     },
-    paymentMethod: shippingAddress.paymentMethod || 'cash',
+    paymentMethod: shippingAddress.paymentMethod || "cash",
     itemsPrice: additionalFees.itemsPrice,
     taxPrice: additionalFees.tax,
     shippingPrice: additionalFees.shippingFee,
@@ -45,6 +45,7 @@ export default function SetOrder({ clicked }: any) {
   async function createOrder() {
     setOrderMutation(userData)
       .then((x) => dispatch(removeAllCart()))
+      .then((x) => toast.success("order have set successfully"))
       .then((res) => clicked())
       .catch((err) => console.log(err));
   }

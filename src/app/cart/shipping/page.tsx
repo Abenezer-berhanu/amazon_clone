@@ -145,13 +145,15 @@ function usePage() {
                 className="outline-none px-2 py-1 indent-1 text-xs w-full "
                 onChange={(e) => setUserName(e.target.value)}
               />
-              {paymentMethod !== "cash" ? (
-                <Button text={"Pay"} />
-              ) : (
-                <SetOrder
-                  clicked={(id: any) => router.push(`/me/orders/${id}`)}
-                />
-              )}
+              {
+                (userCountry && userCity && paymentMethod && userName && userPhone) ? paymentMethod !== "cash" ? (
+                  <Button text={"Pay"} />
+                ) : (
+                  <SetOrder
+                    clicked={(id: any) => router.push(`/me/orders/${id}`)}
+                  />
+                ) : ""
+              }
             </form>
           </div>
         </div>
