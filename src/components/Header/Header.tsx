@@ -7,16 +7,17 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { RxAvatar } from "react-icons/rx";
 
 
 function Header() {
-
+  const router = useRouter()
   const { cartItems, shippingAddress } = useSelector(
     (state: any) => state.cart
   );
-  const {data} = useSelector(( state:any ) => state.auth)
+  const {userInfo} = useSelector(( state:any ) => state.auth)
 
-  console.log(data)
   return (
     <div className="flex w-full justify-between items-center bg-amazon_blue h-20 text-lightText gap-5 px-3 sticky top-0 z-50 bg-opacity-90">
       {/* logo */}
@@ -64,8 +65,8 @@ function Header() {
 
       {/* user */}
       <div className="text-xs cursor-pointer h-full flex flex-col p-3 justify-center">
-        <div className="flex items-center text-white sm:font-bold">
-        {data ? data.msg.username : 'login'}
+        <div className="flex items-center text-amazon_yellow">
+        {userInfo ? <RxAvatar className="text-2xl"/>  : <p onClick={() => router.push('/auth/signin')}>Login</p>}
         </div>
       </div>
     </div>

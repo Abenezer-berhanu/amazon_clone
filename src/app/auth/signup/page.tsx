@@ -8,7 +8,6 @@ import {
 } from "@/features/slices/userSlice";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import Loader from "@/components/Loader/Loader";
 import { RadioGroup, RadioButton } from "react-radio-buttons";
 
 interface LoginFormProps {
@@ -40,9 +39,9 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     email,
     role,
   };
-  const [checkUserExistence, { isLoading }] = useUserExistMutation();
-  const [registerUser, { isLoading: registerLoading }] =
-    useRegisterUserMutation();
+  const [checkUserExistence, { isLoading: existLoading }] =
+    useUserExistMutation();
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -112,14 +111,13 @@ const LoginForm: React.FC<LoginFormProps> = () => {
 
           <div>
             <label
-              htmlFor="username"
+              htmlFor="email"
               className="block text-sm font-medium mt-2 text-gray-700"
             >
               Email:
             </label>
             <input
               type="text"
-              id="username"
               value={email}
               onChange={handleEmailChange}
               className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border border-gray-300 rounded focus:outline-none focus:bg-white"
@@ -161,16 +159,18 @@ const LoginForm: React.FC<LoginFormProps> = () => {
           )}
           <button
             type="submit"
-            disabled={isLoading || registerLoading ? true : false}
+            disabled={isLoading || existLoading ? true : false}
             className="w-full py-2 mt-6 font-medium text-white bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-75"
           >
-            {registerLoading && isLoading ? "waiting.." : "Sign up"}
+            {isLoading || existLoading ? "loading.." : "Sign up"}
           </button>
         </form>
         <div className="flex items-center justify-center mt-6">
           <button
             onClick={handleGoogleLogin}
-            className="flex items-center px-4 py-2 space-x-2 text-gray-600 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none"
+            className={`${
+              isLoading && existLogin && "text-xl font-bold"
+            } flex items-center px-4 py-2 space-x-2 text-gray-600 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none`}
           >
             <FcGoogle />
             <span>Continue with Google</span>

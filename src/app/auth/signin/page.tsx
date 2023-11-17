@@ -1,24 +1,27 @@
-'use client'
-import { useState } from 'react';
-import Link from 'next/link';
+"use client";
+import { useState } from "react";
+import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
-import { useLoginUserMutation, useUserExistMutation } from '@/features/slices/userSlice';
-import { setCredentials } from '@/features/slices/userSliceStore';
-import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/navigation';
-import {toast} from 'react-toastify'
+import {
+  useLoginUserMutation,
+  useUserExistMutation,
+} from "@/features/slices/userSlice";
+import { setCredentials } from "@/features/slices/userSliceStore";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 interface LoginFormProps {
   onSubmit: (username: string, password: string) => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = () => {
-  const router = useRouter()
-  const dispatch = useDispatch()
-  const [signUserIn, {isLoading, error}] = useLoginUserMutation()
-  const [checkIfExist, {isLoading: existLogin}] = useUserExistMutation()
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [signUserIn, { isLoading }] = useLoginUserMutation();
+  const [checkIfExist, { isLoading: existLogin }] = useUserExistMutation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -28,20 +31,21 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const userInfo = {
       email,
-      password
-    }
-    const {data:isUserExist}:any = await checkIfExist(userInfo)
-    if(isUserExist.msg){
-      const res = await signUserIn(userInfo)
-      dispatch(setCredentials(res))
-      router.push('/')
-    }else{
-      toast.error('No Account has found please Register')
-      router.push('/auth/signup')
+      password,
+    };
+    const { data: isUserExist }: any = await checkIfExist(userInfo);
+    if (isUserExist.msg) {
+      const res = await signUserIn(userInfo);
+      dispatch(setCredentials(res));
+      toast.success("welcome again 🙋‍♂️");
+      router.push("/");
+    } else {
+      toast.error("No Account has found please Register");
+      router.push("/auth/signup");
     }
   };
 
@@ -55,7 +59,10 @@ const LoginForm: React.FC<LoginFormProps> = () => {
         <h1 className="text-2xl font-bold text-center">Login</h1>
         <form onSubmit={handleSubmit} className="mt-6">
           <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700"
+            >
               Email
             </label>
             <input
@@ -69,7 +76,10 @@ const LoginForm: React.FC<LoginFormProps> = () => {
             />
           </div>
           <div className="mt-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
               Password
             </label>
             <input
@@ -83,9 +93,11 @@ const LoginForm: React.FC<LoginFormProps> = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-2 mt-6 font-medium text-white bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-75"
+            className={`w-full py-2 ${
+              isLoading && existLogin && "text-xl font-bold"
+            } mt-6 font-medium text-white bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-75`}
           >
-            Login
+            {isLoading || existLogin ? "Loading.." : "Log in"}
           </button>
         </form>
         <div className="flex items-center justify-center mt-6">
@@ -98,7 +110,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
           </button>
         </div>
         <p className="mt-4 text-center">
-          have no account?{' '}
+          have no account?{" "}
           <Link href="/auth/signup" className="text-blue-500 underline">
             Sign up
           </Link>
