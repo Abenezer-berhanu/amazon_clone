@@ -26,13 +26,15 @@ function useCart({ products }: any) {
         {products.map((product: ProductProps) => (
           <div key={product._id} className="p-3 grid grid-cols-4 relative">
             <div className="col-span-1">
-              <Image
-                src={product.image}
-                alt={product.title}
-                width={300}
-                height={200}
-                className="w-full scale-90 h-[200px] object-contain hover:scale-100 duration-300"
-              />
+              <Link href={`/product/${product._id}`}>
+                <Image
+                  src={product.image}
+                  alt={product.title}
+                  width={300}
+                  height={200}
+                  className="w-full scale-90 h-[200px] object-contain hover:scale-100 duration-300"
+                />
+              </Link>
             </div>
             <div className="col-span-3 flex flex-col gap-1 relative">
               <p className="text-sm font-semibold tracking-wide">
@@ -41,9 +43,12 @@ function useCart({ products }: any) {
                   {product.category}
                 </small>
               </p>
-              <h1 className="text-slate-600 font-semibold tracking-wider">
-                {product.title}
-              </h1>
+              <Link href={`/product/${product._id}`}>
+                <h1 className="text-slate-600 font-semibold tracking-wider">
+                  {product.title}
+                </h1>
+              </Link>
+
               {product.isNew && <New />}
               <div className="flex gap-1 font-serif font-semibold">
                 Price:{" "}
@@ -78,9 +83,9 @@ function useCart({ products }: any) {
             Delivery fee: ${additionalFees.shippingFee}
           </p>
         </div>
-         <Link href={'/cart/shipping'}>
-         <Button />
-         </Link>
+        <Link href={"/cart/shipping"}>
+          <Button />
+        </Link>
       </div>
     </div>
   );
