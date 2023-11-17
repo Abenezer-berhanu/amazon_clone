@@ -150,7 +150,7 @@ function usePage() {
                   <Button text={"Pay"} />
                 ) : (
                   <SetOrder
-                    clicked={(id: any) => router.push(`/me/orders/${id}`)}
+                    clicked={(id: any) => router.push(`/me/orders`)}
                   />
                 ) : ""
               }

@@ -2,9 +2,9 @@
 import { useSelector } from "react-redux";
 import { useCreateOrderMutation } from "../features/slices/orderSliceApi";
 import Button from "@/components/Button/Button";
-import { removeAllCart } from "@/features/slices/cartSlice";
+import { removeAllCart, storeTemp } from "@/features/slices/cartSlice";
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default function SetOrder({ clicked }: any) {
@@ -43,11 +43,15 @@ export default function SetOrder({ clicked }: any) {
         : false,
   };
   async function createOrder() {
-    setOrderMutation(userData)
-      .then((x) => dispatch(removeAllCart()))
-      .then((x) => toast.success("order have set successfully"))
-      .then((res) => clicked())
-      .catch((err) => console.log(err));
+    try {
+      await setOrderMutation(userData)
+      dispatch(removeAllCart())
+      toast.success('order have set successfully')
+      clicked()
+      return redirect('/')
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <>
@@ -58,3 +62,9 @@ export default function SetOrder({ clicked }: any) {
     </>
   );
 }
+
+    // setOrderMutation(userData)
+    //   .then((x: any) => dispatch(removeAllCart()))
+    //   .then((y) => toast.success("order have set successfully"))
+    //   .then((z: any) => clicked(z.data.msg._id))
+    //   .catch((err) => console.log(err));

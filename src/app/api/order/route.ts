@@ -29,8 +29,6 @@ export const POST = async (req: NextRequest) => {
       totalPrice,
       isPaid,
     };
-
-    console.log(orderDetail)
     const res = await orderModel.create(orderDetail);
     return NextResponse.json({ msg: res, success: true }, { status: 201 });
   } catch (error) {
