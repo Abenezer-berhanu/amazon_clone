@@ -15,7 +15,7 @@ export const POST = async (req: NextRequest) => {
       taxPrice,
       shippingPrice,
       totalPrice,
-      isPaid
+      isPaid,
     } = await req.json();
 
     const orderDetail = {
@@ -27,10 +27,12 @@ export const POST = async (req: NextRequest) => {
       taxPrice,
       shippingPrice,
       totalPrice,
-    }
+      isPaid,
+    };
 
-    const res = await orderModel.create(orderDetail)
-    return NextResponse.json({msg: res, success: true}, {status: 201})
+    console.log(orderDetail)
+    const res = await orderModel.create(orderDetail);
+    return NextResponse.json({ msg: res, success: true }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: error, success: false }, { status: 500 });
   }

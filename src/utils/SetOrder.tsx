@@ -8,13 +8,12 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default function SetOrder({ clicked }: any) {
-  const router = useRouter();
   const dispatch = useDispatch();
   const { cartItems, shippingAddress, additionalFees } = useSelector(
     (state: any) => state.cart
   );
   const { userInfo } = useSelector((state: any) => state.auth);
-  const [setOrder, { isLoading }] = useCreateOrderMutation();
+  const [setOrderMutation, { isLoading }] = useCreateOrderMutation();
   const userData = {
     userId: userInfo.msg._id,
     orderItems: cartItems.map((x: any) => {
@@ -32,10 +31,10 @@ export default function SetOrder({ clicked }: any) {
       phoneNumber: shippingAddress.userPhone,
       receiverName: shippingAddress.userName,
     },
-    paymentMethod: shippingAddress.paymentMethod,
+    paymentMethod: shippingAddress.paymentMethod || 'cash',
     itemsPrice: additionalFees.itemsPrice,
     taxPrice: additionalFees.tax,
-    shippingPrice: additionalFees.shippingPrice,
+    shippingPrice: additionalFees.shippingFee,
     totalPrice: additionalFees.totalPrice,
     isPaid:
       shippingAddress.paymentMethod === "chapa" ||
@@ -43,8 +42,8 @@ export default function SetOrder({ clicked }: any) {
         ? true
         : false,
   };
-  function createOrder() {
-    setOrder(userData)
+  async function createOrder() {
+    setOrderMutation(userData)
       .then((x) => dispatch(removeAllCart()))
       .then((res) => clicked())
       .catch((err) => console.log(err));

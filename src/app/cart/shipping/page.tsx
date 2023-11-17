@@ -7,28 +7,28 @@ import Button from "@/components/Button/Button";
 import { useRouter } from "next/navigation";
 import SetOrder from "../../../utils/setOrder";
 
-
 function usePage() {
   const dispatch = useDispatch();
   const router = useRouter();
   const [userCountryInfo, setUserCountryInfo]: any = useState("Ethiopia");
   const [userCountry, setUserCountry] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("cash");
   const [userName, setUserName] = useState("");
   const [userPhone, setUserPhone] = useState("");
   const [userCity, setUserCity] = useState("");
   const [cities, setCities]: any = useState([]);
 
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const shippingInfo = {
+    userCountry,
+    userName,
+    userPhone,
+    userCity,
+    paymentMethod,
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const shippingInfo = {
-      userCountry,
-      userName,
-      userPhone,
-      userCity,
-      paymentMethod,
-    };
-    dispatch(addShippingInfo(shippingInfo));
+
     const paymentChoise = JSON.parse(localStorage.getItem("ab_am_ca_rt")!)
       .shippingAddress.paymentMethod;
     if (paymentChoise === "chapa") {
@@ -37,6 +37,10 @@ function usePage() {
       router.push("/cart/shipping/payment/stripePay");
     }
   };
+
+  useEffect(() => {
+    dispatch(addShippingInfo(shippingInfo));
+  }, [userCountry, paymentMethod, userName, userPhone, userCity]);
 
   useEffect(() => {
     setUserCountry(userCountryInfo.name);
@@ -141,7 +145,13 @@ function usePage() {
                 className="outline-none px-2 py-1 indent-1 text-xs w-full "
                 onChange={(e) => setUserName(e.target.value)}
               />
-              {paymentMethod !== 'cash' ? <Button text={"Pay"}/> : <SetOrder clicked={() => router.push('/')}/>}
+              {paymentMethod !== "cash" ? (
+                <Button text={"Pay"} />
+              ) : (
+                <SetOrder
+                  clicked={(id: any) => router.push(`/me/orders/${id}`)}
+                />
+              )}
             </form>
           </div>
         </div>
