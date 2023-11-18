@@ -22,7 +22,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [signUserIn, { isLoading }] = useLoginUserMutation();
-  const [checkIfExist, { isLoading: existLogin }] = useUserExistMutation();
+  const [checkIfExist, { isLoading: existLoading }] = useUserExistMutation();
   const [email, setEmail]: any = useState("");
   const [password, setPassword] = useState("");
   const [waiting, setWaiting] = useState(false);
@@ -46,10 +46,15 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     };
     const { data: isUserExist }: any = await checkIfExist(userInfo);
     if (isUserExist.msg) {
-      const res = await signUserIn(userInfo);
-      dispatch(setCredentials(res));
-      toast.success("welcome again 🙋‍♂️");
-      router.push("/");
+      const res: any = await signUserIn(userInfo);
+      if (res.error) {
+        toast.error(res.error.data.msg);
+      }
+      if (!res.error) {
+        dispatch(setCredentials(res));
+        toast.success("welcome again 🙋‍♂️");
+        router.push("/");
+      }
     } else {
       toast.error("No Account has found please Register");
       router.push("/auth/signup");
@@ -81,11 +86,13 @@ const LoginForm: React.FC<LoginFormProps> = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-white relative">
-      {waiting && (
-        <div className="absolute left-[25%] right-[25%] width-[50%]">
-          <Loader />
-        </div>
-      )}
+      {waiting ||
+        isLoading ||
+        (existLoading && (
+          <div className="absolute left-[25%] right-[25%] width-[50%]">
+            <Loader />
+          </div>
+        ))}
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-bold text-center">Login</h1>
         <form onSubmit={handleSubmit} className="mt-6">
@@ -124,11 +131,10 @@ const LoginForm: React.FC<LoginFormProps> = () => {
           </div>
           <button
             type="submit"
-            className={`w-full py-2 ${
-              isLoading && existLogin && "text-xl font-bold"
-            } mt-6 font-medium text-white bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-75`}
+            disabled={isLoading || waiting ? true : false}
+            className={`w-full py-2 "text-xl mt-6 text-white bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-75`}
           >
-            {isLoading || existLogin ? "Loading.." : "Log in"}
+            Log in
           </button>
         </form>
         <div className="flex items-center justify-center mt-6">

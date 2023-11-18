@@ -9,6 +9,7 @@ import {
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { RadioGroup, RadioButton } from "react-radio-buttons";
+import Loader from "@/components/Loader/Loader";
 
 interface LoginFormProps {
   onSubmit: (
@@ -83,6 +84,12 @@ const LoginForm: React.FC<LoginFormProps> = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-white">
+      {isLoading ||
+        (existLoading && (
+          <div className="absolute left-[25%] right-[25%] width-[50%]">
+            <Loader />
+          </div>
+        ))}
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-bold text-center">sign up</h1>
         <form onSubmit={handleSubmit} className="mt-6">
@@ -157,7 +164,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
             disabled={isLoading || existLoading ? true : false}
             className="w-full py-2 mt-6 font-medium text-white bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-75"
           >
-            {isLoading || existLoading ? "Loading.." : "Sign up"}
+            Sign up
           </button>
         </form>
         <p className="mt-4 text-center">
