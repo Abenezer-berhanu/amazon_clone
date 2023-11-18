@@ -169,7 +169,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
           <button
             onClick={handleGoogleLogin}
             className={`${
-              isLoading && existLogin && "text-xl font-bold"
+              isLoading && existLoading && "text-xl font-bold"
             } flex items-center px-4 py-2 space-x-2 text-gray-600 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none`}
           >
             <FcGoogle />

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import {
@@ -10,6 +10,9 @@ import { setCredentials } from "@/features/slices/userSliceStore";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { auth } from "@/utils/firebase";
+import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 interface LoginFormProps {
   onSubmit: (username: string, password: string) => void;
@@ -20,12 +23,36 @@ const LoginForm: React.FC<LoginFormProps> = () => {
   const dispatch = useDispatch();
   const [signUserIn, { isLoading }] = useLoginUserMutation();
   const [checkIfExist, { isLoading: existLogin }] = useUserExistMutation();
-  const [email, setEmail] = useState("");
+  const [email, setEmail]: any = useState("");
   const [password, setPassword] = useState("");
+  //to grab user data log in with google
+  const [user, setUser] = useAuthState(auth);
+
+  //google provider
+  const googleProvider = new GoogleAuthProvider();
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
+
+  useEffect(() => {
+    if (user) { 
+      const Gemail = user?.email;
+      console.log(Gemail);
+      checkIfExist({ email: Gemail })
+        .then((res: any) => {
+          console.log(res)
+          if (res.data.success === false) {
+            toast.warning("Not registered please signup");
+            router.push("/auth/signup");
+          } else if (res.data.success === true) {
+            toast.info("please enter your account password");
+            setEmail(Gemail);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [user]);
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -49,8 +76,12 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    // Handle Google login
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
