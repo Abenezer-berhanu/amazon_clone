@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import {
@@ -11,8 +11,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { auth } from "@/utils/firebase";
-import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 interface LoginFormProps {
   onSubmit: (username: string, password: string) => void;
@@ -25,8 +24,6 @@ const LoginForm: React.FC<LoginFormProps> = () => {
   const [checkIfExist, { isLoading: existLogin }] = useUserExistMutation();
   const [email, setEmail]: any = useState("");
   const [password, setPassword] = useState("");
-  //to grab user data log in with google
-  const [user, setUser] = useAuthState(auth);
 
   //google provider
   const googleProvider = new GoogleAuthProvider();
@@ -35,24 +32,6 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     setEmail(e.target.value);
   };
 
-  useEffect(() => {
-    if (user) { 
-      const Gemail = user?.email;
-      console.log(Gemail);
-      checkIfExist({ email: Gemail })
-        .then((res: any) => {
-          console.log(res)
-          if (res.data.success === false) {
-            toast.warning("Not registered please signup");
-            router.push("/auth/signup");
-          } else if (res.data.success === true) {
-            toast.info("please enter your account password");
-            setEmail(Gemail);
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [user]);
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -79,6 +58,16 @@ const LoginForm: React.FC<LoginFormProps> = () => {
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
+      if(result.user){
+        const res:any = await checkIfExist({ email: result.user.email })
+        if (res.error.data.success === false) {
+          toast.warning("Not registered please signup");
+          router.push("/auth/signup");
+        } else if (res.data.success === true) {
+          toast.info("please enter your account password");
+          setEmail(result.user.email);
+        }
+      }
     } catch (error) {
       console.log(error);
     }

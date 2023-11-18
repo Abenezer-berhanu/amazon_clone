@@ -11,7 +11,7 @@ export const POST = async (request: NextRequest) => {
     const reqBody = await request.json();
     const { email, password } = reqBody;
     const user = await userModel.findOne({ email });
-    const { _id,role } = user;
+    const { _id, role } = user;
     if (user) {
       const matchPassword = await bcrypt.compare(password, user.password);
 
@@ -39,7 +39,7 @@ export const POST = async (request: NextRequest) => {
           { status: 200 }
         );
       } else {
-    console.log(user)
+        console.log(user);
         return NextResponse.json({ msg: "invalid password" }, { status: 400 });
       }
     } else {
