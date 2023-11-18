@@ -9,6 +9,12 @@ export function middleware(request: NextRequest) {
 
   const isPublicUser = path === "/auth/signin" || path === "/auth/signup";
 
+  const isNotPublicPath = path === "/(.*)";
+
+  if (isNotPublicPath && !token) {
+    return NextResponse.redirect(new URL("/auth/signin", request.url));
+  }
+
   if (isPublicUser && token) {
     return NextResponse.redirect(new URL("/", request.url));
   }
@@ -16,11 +22,15 @@ export function middleware(request: NextRequest) {
   if (!isPublicUser && !token) {
     return NextResponse.redirect(new URL("/auth/signin", request.url));
   }
-
-
 }
 export const config = {
-  matcher: ["/", "/auth/:path*", "/cart/:path*", "/product/:path*"],
+  matcher: [
+    "/",
+    "/auth/:path*",
+    "/cart/:path*",
+    "/product/:path*",
+    "/me/:path*",
+  ],
 };
 
 // if (path === "/" && !token) {
