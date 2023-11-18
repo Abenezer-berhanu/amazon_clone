@@ -77,13 +77,8 @@ const LoginForm: React.FC<LoginFormProps> = () => {
       console.log(error);
     }
   };
-
   const handleOptionChange = (value: string) => {
     setRole(value);
-  };
-
-  const handleGoogleLogin = () => {
-    // Handle Google login
   };
 
   return (
@@ -162,20 +157,9 @@ const LoginForm: React.FC<LoginFormProps> = () => {
             disabled={isLoading || existLoading ? true : false}
             className="w-full py-2 mt-6 font-medium text-white bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-75"
           >
-            {isLoading || existLoading ? "loading.." : "Sign up"}
+            {isLoading || existLoading ? "Loading.." : "Sign up"}
           </button>
         </form>
-        <div className="flex items-center justify-center mt-6">
-          <button
-            onClick={handleGoogleLogin}
-            className={`${
-              isLoading && existLoading && "text-xl font-bold"
-            } flex items-center px-4 py-2 space-x-2 text-gray-600 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none`}
-          >
-            <FcGoogle />
-            <span>Continue with Google</span>
-          </button>
-        </div>
         <p className="mt-4 text-center">
           have an account?
           <Link href="/auth/signin" className="text-blue-500 underline">

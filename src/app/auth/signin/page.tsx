@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { auth } from "@/utils/firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import Loader from "@/components/Loader/Loader";
 
 interface LoginFormProps {
   onSubmit: (username: string, password: string) => void;
@@ -24,6 +25,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
   const [checkIfExist, { isLoading: existLogin }] = useUserExistMutation();
   const [email, setEmail]: any = useState("");
   const [password, setPassword] = useState("");
+  const [waiting, setWaiting] = useState(false);
 
   //google provider
   const googleProvider = new GoogleAuthProvider();
@@ -31,7 +33,6 @@ const LoginForm: React.FC<LoginFormProps> = () => {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -55,18 +56,23 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     }
   };
 
+  const handleSuccess = (result: any) => {
+    toast.info("please enter your account password"),
+      setEmail(result.user.email);
+  };
+
+  const handleError = () => {
+    toast.warning("Not registered please signup"), router.push("/auth/signup");
+  };
+
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      if(result.user){
-        const res:any = await checkIfExist({ email: result.user.email })
-        if (res.error.data.success === false) {
-          toast.warning("Not registered please signup");
-          router.push("/auth/signup");
-        } else if (res.data.success === true) {
-          toast.info("please enter your account password");
-          setEmail(result.user.email);
-        }
+      if (result.user) {
+        setWaiting(true);
+        const res: any = await checkIfExist({ email: result.user.email });
+        setWaiting(false);
+        res.data ? handleSuccess(result) : handleError();
       }
     } catch (error) {
       console.log(error);
@@ -74,7 +80,12 @@ const LoginForm: React.FC<LoginFormProps> = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-white">
+    <div className="flex items-center justify-center min-h-screen bg-white relative">
+      {waiting && (
+        <div className="absolute left-[25%] right-[25%] width-[50%]">
+          <Loader />
+        </div>
+      )}
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-bold text-center">Login</h1>
         <form onSubmit={handleSubmit} className="mt-6">
