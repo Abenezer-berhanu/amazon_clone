@@ -5,7 +5,7 @@ import Footer from "@/components/Footer/Footer";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import RTKProvider from "@/utils/RTKProvider";
 import "react-toastify/dist/ReactToastify.css";
-import {ToastContainer} from 'react-toastify'
+import { ToastContainer } from "react-toastify";
 export default function RootLayout({
   children,
 }: {
@@ -21,17 +21,17 @@ export default function RootLayout({
           <div className="absolute bottom-0 z-50 w-full">
             <Footer />
           </div>
-          <ToastContainer 
-          position="top-center"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
           />
         </RTKProvider>
       </body>

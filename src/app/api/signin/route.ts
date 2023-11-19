@@ -14,18 +14,15 @@ export const POST = async (request: NextRequest) => {
     const { _id, role } = user;
     if (user) {
       const matchPassword = await bcrypt.compare(password, user.password);
-
       if (matchPassword) {
         const token = await jwt.sign({ _id, role }, process.env.JWT_SECRET!, {
           expiresIn: "2d",
         });
-
         cookies().set({
           name: "ab_am_us_er",
           value: token,
           httpOnly: true,
         });
-
         return NextResponse.json(
           {
             msg: {
@@ -39,7 +36,6 @@ export const POST = async (request: NextRequest) => {
           { status: 200 }
         );
       } else {
-        console.log(user);
         return NextResponse.json({ msg: "invalid password" }, { status: 400 });
       }
     } else {

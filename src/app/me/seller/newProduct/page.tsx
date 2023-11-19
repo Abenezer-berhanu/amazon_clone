@@ -1,23 +1,42 @@
 "use client";
 import React, { ChangeEvent, useState } from "react";
 import { MdOutlineClear } from "react-icons/md";
-import { ProductProps } from "../../../../type";
 import { useCreateProductMutation } from "@/features/slices/productSlice";
 
+interface newProductType {
+  title: "";
+  description: "";
+  price: 0;
+  brand: "";
+  image: [];
+  isNew: false;
+  category: "";
+  subCategory: "";
+  amount: 0;
+}
+
 function usePage() {
-  const [name, setName]= useState<any>({
+  const [name, setName] = useState<newProductType>({
     title: "",
     description: "",
     price: 0,
     brand: "",
-    image: "",
+    image: [],
     isNew: false,
     category: "",
+    subCategory: "",
+    amount: 0,
   });
 
-  const [createProduct, {isLoading: loadingProductCreation, error: errorProductCreation}] = useCreateProductMutation()
+  const [
+    createProduct,
+    { isLoading: loadingProductCreation, error: errorProductCreation },
+  ] = useCreateProductMutation();
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement> | any) => {
+    if (e.target.files) {
+      setName({ ...name, subCategory: e.target.files[0] });
+    }
     if (e.target.name === "isNew") {
       setName({ ...name, isNew: e.target.checked });
     } else {
@@ -25,13 +44,12 @@ function usePage() {
     }
   };
 
-  const handleSubmit = async (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
     try {
-      const result = await createProduct(name)
-      console.log(result)
-    } catch (error:any) {
-      console.log(error)
+      console.log(name);
+    } catch (error: any) {
+      console.log(error);
     }
   };
 
@@ -51,7 +69,7 @@ function usePage() {
       <div className=" w-full font-semibold text-amazon_blue border border-t-black p-2">
         <form
           className="grid place-items-start w-full flex-shrink-0 gap-1"
-          onSubmit={(e) => handleSubmit(e)}
+          onSubmit={handleSubmit}
         >
           <label htmlFor="title">
             Product Name <span className="text-red-400">*</span>
@@ -59,7 +77,7 @@ function usePage() {
           <input
             type="text"
             name="title"
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             className="py-2 text-black indent-2 w-full outline-none mb-2"
             required
             placeholder="Enter name"
@@ -70,10 +88,10 @@ function usePage() {
           <input
             type="text"
             name="brand"
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             className="py-2 text-black indent-2 w-full outline-none mb-2"
             required
-            placeholder="Enter name"
+            placeholder="Enter brand(IPhone)"
           />
           <label htmlFor="price">
             Price <span className="text-red-400">*</span>
@@ -81,43 +99,65 @@ function usePage() {
           <input
             type="number"
             name="price"
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             className="py-2 text-black indent-2 w-full outline-none mb-2"
             required
-            placeholder="Enter name"
+            placeholder="Enter Price"
+          />
+          <label htmlFor="amount">
+            Amount(count in stock) <span className="text-red-400">*</span>
+          </label>
+          <input
+            type="number"
+            name="amount"
+            onChange={handleChange}
+            className="py-2 text-black bg-white indent-2 w-full outline-none mb-2"
+            required
+            placeholder="count in stock"
           />
           <span className="flex gap-2 items-center justify-between my-2 border-opacity-10 rounded-sm bg-white border border-slate-800 p-2 w-full">
-            <label htmlFor="isNew">
-              Is New ({new Date().getFullYear()}){" "}
-              <span className="text-red-400">*</span>
-            </label>
+            <label htmlFor="isNew">Is New ({new Date().getFullYear()})</label>
             <input
               type="checkbox"
               name="isNew"
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
               className="py-2 text-black indent-2 outline-none"
               required
-              placeholder="Enter name"
             />
           </span>
           <label htmlFor="category">
             Category <span className="text-red-400">*</span>
           </label>
-          <input
-            type="text"
-            name="category"
-            onChange={(e) => handleChange(e)}
-            className="py-2 text-black indent-2 w-full outline-none mb-2"
-            required
-            placeholder="Enter name"
-          />
+          <select onChange={handleChange} name="category" required>
+            <option value="">select category</option>
+            <option value="electronics">Electronics</option>
+            <option value="food">Food</option>
+            <option value="clothing">Clothing</option>
+            <option value="beauty">Beauty & Personal Care</option>
+            <option value="other">Other</option>
+          </select>
+          <span className="my-3 w-full">
+            <label htmlFor="subCategory">
+              Sub Category <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="text"
+              name="subCategory"
+              onChange={handleChange}
+              className="py-2 text-black indent-2 w-full outline-none mb-2"
+              required
+              placeholder="sub category(Phone, Laptop, Tv...)"
+            />
+          </span>
+
           <label htmlFor="image">
             Images <span className="text-red-400">*</span>
           </label>
           <input
+            aria-required
             type="file"
             name="image"
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             className="py-2 text-black bg-white indent-2 w-full outline-none mb-2"
             required
             placeholder="Enter name"
@@ -129,7 +169,7 @@ function usePage() {
             rows={4}
             cols={50}
             name="description"
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             className="py-2 text-black indent-2 w-full outline-none mb-2"
             required
             placeholder="Enter name"
@@ -147,5 +187,3 @@ function usePage() {
 }
 
 export default usePage;
-
-
