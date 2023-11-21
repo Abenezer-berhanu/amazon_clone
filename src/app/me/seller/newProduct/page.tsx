@@ -80,7 +80,6 @@ function usePage() {
       formData.append("file", file);
       formData.append("upload_preset", process.env.NEXT_PUBLIC_UPLOAD_PRESET!);
       const res: any = await uploadImageMutation(formData);
-      console.log(res);
       if (location === "images") {
         imagesURL.push(res.data.secure_url);
       }
@@ -113,9 +112,10 @@ function usePage() {
         imagesURlList: imagesURL,
         thumbnail: res.data.secure_url,
       };
-      const newProduct: any = await createProduct(productInformations);
-      console.log(newProduct);
-      // router.push(`/me/seller/newProduct/newProductDetail/${12345}`);
+      const { data }: any = await createProduct(productInformations);
+      if (data) {
+        router.push(`/me/seller/newProduct/newProductDetail/${data.msg._id}`);
+      }
     } catch (error: any) {
       console.log(error);
     }
