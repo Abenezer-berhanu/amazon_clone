@@ -22,11 +22,25 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    image: {
+    imagesURlList: [
+      {
+        type:String,
+        required: true
+      }
+    ],
+    thumbnail:{
       type: String,
-      required: true,
+      required: true
     },
-    isProductNew: {
+    subCategory:{
+      type: String,
+      required:true
+    },
+    amount:{
+      type: Number,
+      required: true
+    },
+    isNew: {
       type: Boolean,
     },
     category: {

@@ -8,6 +8,7 @@ import {
 import Images from "@/components/ChoosenImages/Images";
 import { toast } from "react-toastify";
 import DisplayLoader from "@/components/Loader/DisplayLoader";
+import { useRouter } from "next/navigation";
 
 interface newProductType {
   title: string;
@@ -34,6 +35,7 @@ function usePage() {
   const [images, setImages]: any = useState([]);
   const [thumbnail, setThumbnail] = useState<string>("");
   const imagesURL: any = [];
+  const router = useRouter();
 
   const handleImagesUpload = (e: any) => {
     if (e.target.name === "images") {
@@ -111,7 +113,9 @@ function usePage() {
         imagesURlList: imagesURL,
         thumbnail: res.data.secure_url,
       };
-      await createProduct(productInformations);
+      const newProduct: any = await createProduct(productInformations);
+      console.log(newProduct);
+      // router.push(`/me/seller/newProduct/newProductDetail/${12345}`);
     } catch (error: any) {
       console.log(error);
     }
