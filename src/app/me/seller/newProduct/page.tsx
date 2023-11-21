@@ -1,18 +1,23 @@
 "use client";
 import React, { ChangeEvent, useState } from "react";
 import { MdOutlineClear } from "react-icons/md";
-import { useCreateProductMutation } from "@/features/slices/productSlice";
+import {
+  useCreateProductMutation,
+  useUploadImagesMutation,
+} from "@/features/slices/productSlice";
+import Images from "@/components/ChoosenImages/Images";
+import { toast } from "react-toastify";
+import DisplayLoader from "@/components/Loader/DisplayLoader";
 
 interface newProductType {
-  title: "";
-  description: "";
-  price: 0;
-  brand: "";
-  image: [];
-  isNew: false;
-  category: "";
-  subCategory: "";
-  amount: 0;
+  title: string;
+  description: string;
+  price: number;
+  brand: string;
+  isNew: boolean;
+  category: string;
+  subCategory: string;
+  amount: number;
 }
 
 function usePage() {
@@ -21,22 +26,44 @@ function usePage() {
     description: "",
     price: 0,
     brand: "",
-    image: [],
     isNew: false,
     category: "",
     subCategory: "",
     amount: 0,
   });
+  const [images, setImages]: any = useState([]);
+  const [thumbnail, setThumbnail] = useState<string>("");
+  const imagesURL: any = [];
+
+  const handleImagesUpload = (e: any) => {
+    if (e.target.name === "images") {
+      const files = e.target.files;
+      const newFiles = [...files].filter((file: any) => {
+        if (file.size <= 2042 * 1024) {
+          setImages((prev: any) => [...prev, file]);
+        }
+      });
+    }
+    if (e.target.name === "thumbnail") {
+      const file = e.target.files[0];
+      setThumbnail(file);
+    }
+  };
+
+  const handleRemoveOneImage = (index: number) => {
+    const newImages = images.filter((_: any, i: number) => i !== index);
+    setImages(newImages);
+  };
 
   const [
     createProduct,
     { isLoading: loadingProductCreation, error: errorProductCreation },
   ] = useCreateProductMutation();
 
+  const [uploadImageMutation, { isLoading: uploadIsLoading }] =
+    useUploadImagesMutation();
+
   const handleChange = (e: ChangeEvent<HTMLInputElement> | any) => {
-    if (e.target.files) {
-      setName({ ...name, subCategory: e.target.files[0] });
-    }
     if (e.target.name === "isNew") {
       setName({ ...name, isNew: e.target.checked });
     } else {
@@ -44,17 +71,55 @@ function usePage() {
     }
   };
 
+  const handleUploadImage = async (imagesList: any, location: string) => {
+    for (let i = 0; i < imagesList.length; i++) {
+      const formData = new FormData();
+      const file = imagesList[i];
+      formData.append("file", file);
+      formData.append("upload_preset", process.env.NEXT_PUBLIC_UPLOAD_PRESET!);
+      const res: any = await uploadImageMutation(formData);
+      console.log(res);
+      if (location === "images") {
+        imagesURL.push(res.data.secure_url);
+      }
+      if (location === "thumbnail") {
+        setThumbnail(res.data.secure_url);
+      }
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
+    if (images.length > 5) {
+      toast.error("Maximum file to upload is 5");
+    }
     try {
-      console.log(name);
+      await handleUploadImage(images, "images");
+      const formData = new FormData();
+      formData.append("file", thumbnail);
+      formData.append("upload_preset", process.env.NEXT_PUBLIC_UPLOAD_PRESET!);
+      const res: any = await uploadImageMutation(formData);
+      const productInformations = {
+        title: name.title,
+        description: name.description,
+        price: name.price,
+        brand: name.brand,
+        isNew: name.isNew,
+        category: name.category,
+        subCategory: name.subCategory,
+        amount: name.amount,
+        imagesURlList: imagesURL,
+        thumbnail: res.data.secure_url,
+      };
+      await createProduct(productInformations);
     } catch (error: any) {
       console.log(error);
     }
   };
 
   return (
-    <div className="max-w-[600px] text-xs md:text-sm md:mx-auto my-5 justify-center items-center border shadow-lg border-slate-300 rounded-md p-3 flex flex-col gap-2">
+    <div className="relative max-w-[600px] text-xs md:text-sm md:mx-auto my-5 justify-center items-center border shadow-lg border-slate-300 rounded-md p-3 flex flex-col gap-2">
+      {loadingProductCreation || (uploadIsLoading && <DisplayLoader />)}
       <h1 className="font-bold tracking-wider text-lg md:text-xl">
         Post New Product
       </h1>
@@ -149,21 +214,49 @@ function usePage() {
               placeholder="sub category(Phone, Laptop, Tv...)"
             />
           </span>
-
           <label htmlFor="image">
-            Images <span className="text-red-400">*</span>
+            Thumbnail <span className="text-red-400">*</span>
+            <small>
+              <i>only one and image file is supported</i>
+            </small>
           </label>
           <input
-            aria-required
             type="file"
-            name="image"
-            onChange={handleChange}
-            className="py-2 text-black bg-white indent-2 w-full outline-none mb-2"
+            name="thumbnail"
+            onChange={handleImagesUpload}
+            accept="image/*"
             required
-            placeholder="Enter name"
           />
+          <label htmlFor="image">
+            Images <span className="text-red-400">*</span>
+            <small>
+              <i>
+                only image file is supported, only files under 2mb will be
+                included,max 5 images
+              </i>
+            </small>
+          </label>
+          <input
+            type="file"
+            maxLength={5}
+            name="images"
+            onChange={handleImagesUpload}
+            multiple
+            accept="image/*"
+            required
+          />
+          <div className="w-full flex gap-2 overflow-x-auto shadow-md rounded-md p-2 my-3 bg-slate-950 bg-opacity-0 no-scrollbar">
+            {images.map((image: any, index: number) => (
+              <Images
+                key={index}
+                url={URL.createObjectURL(image)}
+                click={() => handleRemoveOneImage(index)}
+              />
+            ))}
+          </div>
           <label htmlFor="description">
-            Description<span className="text-red-400">*</span>
+            Description
+            <span className="text-red-400">*</span>
           </label>
           <textarea
             rows={4}
@@ -185,5 +278,4 @@ function usePage() {
     </div>
   );
 }
-
 export default usePage;

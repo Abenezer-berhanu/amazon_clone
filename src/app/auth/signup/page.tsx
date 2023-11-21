@@ -9,7 +9,7 @@ import {
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { RadioGroup, RadioButton } from "react-radio-buttons";
-import Loader from "@/components/Loader/Loader";
+import DisplayLoader from "@/components/Loader/DisplayLoader";
 
 interface LoginFormProps {
   onSubmit: (
@@ -86,9 +86,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     <div className="flex items-center justify-center min-h-screen bg-white">
       {isLoading ||
         (existLoading && (
-          <div className="absolute left-[25%] right-[25%] width-[50%]">
-            <Loader />
-          </div>
+          <DisplayLoader />
         ))}
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-bold text-center">sign up</h1>

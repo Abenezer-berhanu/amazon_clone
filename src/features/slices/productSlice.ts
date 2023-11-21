@@ -16,12 +16,23 @@ export const productApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     getProductById: builder.query<any, any>({
-      query: (id:string) => ({
-        url: `/api/products/${id}`
-      })
-    })
+      query: (id: string) => ({
+        url: `/api/products/${id}`,
+      }),
+    }),
+    uploadImages: builder.mutation({
+      query: (data) => ({
+        url: `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_CLOUD_NAME}/image/upload`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useCreateProductMutation, useGetAllProductQuery, useGetProductByIdQuery } =
-  productApiSlice;
+export const {
+  useCreateProductMutation,
+  useGetAllProductQuery,
+  useGetProductByIdQuery,
+  useUploadImagesMutation,
+} = productApiSlice;

@@ -7,8 +7,7 @@ connectDB();
 export const POST = async (request: NextRequest) => {
   try {
     const reqBody = await request.json();
-    const product = await productModel.create({});
-    return NextResponse.json({ msg: product, success: true }, { status: 200 });
+    console.log(reqBody)
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

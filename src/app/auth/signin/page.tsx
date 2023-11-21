@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { auth } from "@/utils/firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import Loader from "@/components/Loader/Loader";
+import DisplayLoader from "@/components/Loader/DisplayLoader";
 
 interface LoginFormProps {
   onSubmit: (username: string, password: string) => void;
@@ -89,9 +89,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
       {waiting ||
         isLoading ||
         (existLoading && (
-          <div className="absolute left-[25%] right-[25%] width-[50%]">
-            <Loader />
-          </div>
+          <DisplayLoader />
         ))}
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-bold text-center">Login</h1>
