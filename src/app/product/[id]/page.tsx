@@ -40,13 +40,14 @@ function usePage() {
         <Loader />
       ) : data ? (
         <>
-          <div className="grid mdl:grid-cols-5 grid-cols-3 border p-2">
+          <div className="grid mdl:grid-cols-5 grid-cols-3 border gap-2 p-2">
             <div className="col-span-3 mdl:col-span-2 text-center overflow-hidden w-full align-center ">
               <Image
-                src={`${data.msg.image}`}
+                src={`${data.msg.image ? data.msg.image : data.msg.thumbnail}`}
                 alt="image"
                 width={500}
                 height={500}
+                priority
                 className="scale-95 h-[400px] object-contain hover:scale-100 duration-300 w-full"
               />
             </div>

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-const publicKey = process.env.CHAPA_PUBLIC_KEY;
+const publicKey = process.env.NEXT_PUBLIC_CHAPA_PUBLIC_KEY;
 const randomRef = Math.random() + Date.now();
 function Form() {
   let paymentAmount: any = JSON.parse(localStorage.getItem("ab_am_ca_rt")!)

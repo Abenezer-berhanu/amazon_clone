@@ -7,11 +7,10 @@ import SaveAmount from "../SaveAmount/SaveAmount";
 import Image from "next/image";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 function Product({ products }: any) {
-  const router = useRouter()
+  const router = useRouter();
   const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
   const handleAddToCart = (product: any) => {
@@ -40,11 +39,12 @@ function Product({ products }: any) {
     >
       <div onClick={() => router.push(`/product/${products._id}`)}>
         <Image
-          src={products.image}
+          src={products.image ? products.image : products.thumbnail}
           alt={products.title}
           width={300}
           height={200}
-          className="w-full scale-90 h-[200px] object-contain hover:scale-100 duration-300"
+          priority
+          className="w-full scale-90 h-[150px] object-contain hover:scale-100 duration-300"
         />
       </div>
       <div className="hidden absolute group-hover:flex left-0 shadow-sm shadow-slate-900 h-[10%] bg-white top-0 border border-slate-300 w-10 justify-between items-center rounded-md">
@@ -60,11 +60,11 @@ function Product({ products }: any) {
       <div>
         <p className="text-sm text-slate-500">{products.category}</p>
         <div onClick={() => router.push(`/product/${products._id}`)}>
-          <p className="font-semibold tracking-wider">{products.title}</p>
+          <p className="font-semibold tracking-wider">{products.title.substring(0, 20)}..</p>
         </div>
         <Prices oldPrice={products.oldPrice} price={products.price} />
         <p className="text-sm text-slate-500">
-          {products.description.substring(0, 120)}...
+          {products.description.substring(0, 80)}...
         </p>
       </div>
       <div className="w-[100%] grid place-items-center gap-2 sm:flex items-center">
