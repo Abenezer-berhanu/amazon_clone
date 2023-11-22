@@ -8,7 +8,6 @@ export const POST = async (req: NextRequest) => {
   try {
     const reqBody = await req.json();
     const { email } = reqBody;
-    console.log(reqBody);
     const userExist = await userModel.findOne({ email }).select("_id");
     let response: any;
     if (userExist) {

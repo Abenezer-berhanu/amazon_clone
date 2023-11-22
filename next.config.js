@@ -1,9 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
+  experimental: {
+    serverActions: true,
+  },
   images: {
-    domains: ["i.ibb.co", "img.clerk.com", "res.cloudinary.com"],
+    domains: [
+      "i.ibb.co",
+      "img.clerk.com",
+      "res.cloudinary.com",
+      "images.unsplash.com",
+      "www.netsolutions.com",
+    ],
   },
 };
 

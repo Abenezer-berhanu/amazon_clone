@@ -18,18 +18,19 @@ function Header() {
   );
 
   const { userInfo } = useSelector((state: any) => state.auth);
-
+    
   let role;
 
-  userInfo.msg.role === "admin"
+  if(userInfo){
+    userInfo.msg.role === "admin"
     ? (role = "admin")
     : userInfo.msg.role === "seller"
     ? (role = "seller")
     : userInfo.msg.role === "buyer"
     ? (role = "buyer")
     : "";
-
-  const id = userInfo.msg._id;
+  }
+  const id = userInfo?.msg ? userInfo.msg._id : null
 
   return (
     <div className="flex w-full justify-between items-center bg-amazon_blue h-20 text-lightText gap-5 px-3 sticky top-0 z-50 bg-opacity-90">

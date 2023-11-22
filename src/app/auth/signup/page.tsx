@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { FcGoogle } from "react-icons/fc";
 import {
   useRegisterUserMutation,
   useUserExistMutation,
@@ -62,8 +61,8 @@ const LoginForm: React.FC<LoginFormProps> = () => {
       return setError("all credential required");
     }
     try {
-      const { data: userExistence }: any = await checkUserExistence(userData);
-      if (userExistence.msg) {
+      const { error }: any = await checkUserExistence(userData);
+      if (!error) {
         toast.error("User Already registered please login");
         setInterval(() => {
           router.push("/auth/signin");
@@ -84,10 +83,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-white">
-      {isLoading ||
-        (existLoading && (
-          <DisplayLoader />
-        ))}
+      {isLoading || (existLoading && <DisplayLoader />)}
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-bold text-center">sign up</h1>
         <form onSubmit={handleSubmit} className="mt-6">

@@ -51,7 +51,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
         toast.error(res.error.data.msg);
       }
       if (!res.error) {
-        dispatch(setCredentials(res));
+        dispatch(setCredentials(res.data));
         toast.success("welcome again 🙋‍♂️");
         router.push("/");
       }

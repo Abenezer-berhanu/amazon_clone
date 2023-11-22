@@ -15,13 +15,14 @@ export const POST = async (request: NextRequest) => {
     if (user) {
       const matchPassword = await bcrypt.compare(password, user.password);
       if (matchPassword) {
-        const token = await jwt.sign({ _id, role }, process.env.JWT_SECRET!, {
-          expiresIn: "2d",
+        const token = jwt.sign({ _id, role }, process.env.JWT_SECRET!, {
+          expiresIn: "1d",
         });
         cookies().set({
           name: "ab_am_us_er",
           value: token,
           httpOnly: true,
+          maxAge: 24 * 60 * 60,
         });
         return NextResponse.json(
           {
