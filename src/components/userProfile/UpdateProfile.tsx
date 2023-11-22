@@ -29,8 +29,9 @@ function UpdateProfile({ id }: any) {
         password,
         id,
       };
-      const res = await updateUser(newUserData);
-      dispatch(setCredentials({ msg: { res } }));
+      const { data }: any = await updateUser(newUserData);
+      console.log(data);
+      dispatch(setCredentials({ msg:  data  }));
       toast.success("Profile updated it might take 2 minutes to see changes");
       router.push("/");
     }
