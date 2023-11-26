@@ -175,18 +175,18 @@ function usePage() {
                       Add Review
                     </button>
                   </form>
-                ) : userInfo.msg && userInfo.msg.role === "buyer" ? (
+                ) : userInfo.msg && userInfo.msg.role !== "buyer" ? (
                   <div>
                     <h3 className="bg-blue-200 text-slate-700 font-semibold shadow-sm w-[98%] bg-opacity-20 mx-auto mb-2 rounded-sm text-center text-base p-2">
                       only buyer is able to give rating!
                     </h3>
                   </div>
-                ) : (
+                ) : userInfo.msg ? (
                   <p className="font-serif bg-yellow-200 indent-3 shadow-md">
                     Person who's not logged in can't review products{" "}
                     <Link href="/auth/signin">sign in</Link>
                   </p>
-                )}
+                ) : ""}
               </div>
             </div>
             <div className="p-3 col-span-4 flex justify-center items-center">
