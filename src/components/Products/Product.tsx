@@ -35,7 +35,7 @@ function Product({ products }: any) {
   return (
     <div
       key={products._id}
-      className="w-full bg-white rounded-md gap-2 group text-black p-4 relative grid border border-slate-300"
+      className="w-full min-h-[420px] bg-white rounded-md gap-2 group text-black p-4 relative grid border border-slate-300"
     >
       <div onClick={() => router.push(`/product/${products._id}`)}>
         <Image
@@ -60,7 +60,9 @@ function Product({ products }: any) {
       <div>
         <p className="text-sm text-slate-500">{products.category}</p>
         <div onClick={() => router.push(`/product/${products._id}`)}>
-          <p className="font-semibold tracking-wider">{products.title.substring(0, 20)}..</p>
+          <p className="font-semibold tracking-wider">
+            {products.title.substring(0, 20)}..
+          </p>
         </div>
         <Prices oldPrice={products.oldPrice} price={products.price} />
         <p className="text-sm text-slate-500">
