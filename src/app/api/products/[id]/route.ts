@@ -55,3 +55,13 @@ export const PUT = async (request: NextRequest, { params }: any) => {
     return NextResponse.json({ msg: "Not found." }, { status: 404 });
   }
 };
+
+export const DELETE = async (request: NextRequest, { params }: any) => {
+  const { id } = params;
+  try {
+    const deletedPro = await productModel.deleteOne({ _id: id });
+    return NextResponse.json("product deleted", { status: 200 });
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
