@@ -18,19 +18,19 @@ function Header() {
   );
 
   const { userInfo } = useSelector((state: any) => state.auth);
-    
+
   let role;
 
-  if(userInfo){
+  if (userInfo) {
     userInfo.msg.role === "admin"
-    ? (role = "admin")
-    : userInfo.msg.role === "seller"
-    ? (role = "seller")
-    : userInfo.msg.role === "buyer"
-    ? (role = "buyer")
-    : "";
+      ? (role = "admin")
+      : userInfo.msg.role === "seller"
+      ? (role = "seller")
+      : userInfo.msg.role === "buyer"
+      ? (role = "buyer")
+      : "";
   }
-  const id = userInfo?.msg ? userInfo.msg._id : null
+  const id = userInfo?.msg ? userInfo.msg._id : null;
 
   return (
     <div className="flex w-full justify-between items-center bg-amazon_blue h-20 text-lightText gap-5 px-3 sticky top-0 z-50 bg-opacity-90">
@@ -124,7 +124,7 @@ function Header() {
                 )}
                 {role === "seller" && (
                   <Link
-                    href={`/me/seller/myOrdersList/${id}`}
+                    href={`/me/myOrders/${id}`}
                     className="px-10 py-2 hover:bg-slate-200 duration-200 shadow-sm"
                   >
                     Orders list
@@ -165,7 +165,7 @@ function Header() {
                     All Products
                   </Link>
                 )}
-                {role !== "buyer" && (
+                {role === "seller" && (
                   <Link
                     href="/me/seller/newProduct"
                     className="px-10 py-2 hover:bg-slate-200 duration-200 shadow-sm"

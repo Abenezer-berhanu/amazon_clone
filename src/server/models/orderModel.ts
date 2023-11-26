@@ -61,6 +61,10 @@ const orderSchema = new mongoose.Schema(
       required: true,
       default: false,
     },
+    owner: {
+      type: String,
+      required: true,
+    },
     paidAt: {
       type: Date,
     },

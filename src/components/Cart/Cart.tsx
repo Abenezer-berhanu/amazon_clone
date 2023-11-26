@@ -19,7 +19,7 @@ function useCart({ products }: any) {
   };
 
   return (
-    <div className="w-[90%] m-auto gap-2 py-3 flex flex-col-reverse mdl:grid grid-cols-6">
+    <div className="w-[95%] m-auto gap-2 py-3 flex flex-col-reverse mdl:grid grid-cols-6">
       <div className="p-2 col-span-4">
         <h1 className="text-2xl">Shipping Cart</h1>
         <hr className="border border-slate-500 mt-2" />
@@ -28,11 +28,11 @@ function useCart({ products }: any) {
             <div className="col-span-1">
               <Link href={`/product/${product._id}`}>
                 <Image
-                  src={product.image}
+                  src={product.image ?? product.thumbnail}
                   alt={product.title}
                   width={300}
                   height={200}
-                  className="w-full scale-90 h-[200px] object-contain hover:scale-100 duration-300"
+                  className="w-full scale-90 h-[200px] object-cover hover:scale-100 duration-300"
                 />
               </Link>
             </div>
@@ -58,17 +58,17 @@ function useCart({ products }: any) {
               <p className="text-sm font-sans">{product.description}</p>
             </div>
             <AiFillDelete
-              className="text-amazon_black hover:text-slate-700 duration-300 text-xl absolute right-5 top-5"
+              className="text-amazon_black hover:text-slate-700 duration-300 text-xl absolute right-5 bottom-5"
               onClick={() => handleDeleteFromCart(product._id)}
             />
           </div>
         ))}
       </div>
-      <div className="border border-l-black col-span-2 p-2 flex mdl:flex-col items-center justify-around mdl:items-start mdl:justify-normal">
-        <h1 className="text-lg font-semibold font-sans">
+      <div className="border grid border-l-black col-span-2 p-2 sml:flex mdl:flex-col items-center justify-around mdl:items-start mdl:justify-normal">
+        <h1 className="text-lg sml:text-xl font-semibold font-sans">
           Subtotal ({cartItems.length}) Items
         </h1>
-        <h1 className="font-semibold text-md font-sans border border-b-black m-2">
+        <h1 className="font-semibold text-sm sml:text-lg font-sans border border-b-black m-2">
           Total Price: ${additionalFees.totalPrice}
         </h1>
         <hr />

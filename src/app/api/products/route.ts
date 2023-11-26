@@ -14,7 +14,7 @@ export const POST = async (request: NextRequest) => {
   }
 };
 
-export const GET = async () => {
+export const GET = async (request: NextRequest) => {
   try {
     const products = await productModel.find({});
     return NextResponse.json({ msg: products, success: true }, { status: 200 });

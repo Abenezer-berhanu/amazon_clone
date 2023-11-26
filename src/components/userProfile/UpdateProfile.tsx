@@ -30,7 +30,6 @@ function UpdateProfile({ id }: any) {
         id,
       };
       const { data }: any = await updateUser(newUserData);
-      console.log(data);
       dispatch(setCredentials({ msg:  data  }));
       toast.success("Profile updated it might take 2 minutes to see changes");
       router.push("/");
@@ -51,7 +50,7 @@ function UpdateProfile({ id }: any) {
             <input
               type="text"
               className="w-[80%] max-w-[300px] py-1 outline-none border border-slate-400 rounded-md bg-opacity-30 indent-3 text-black"
-              placeholder={userInfo.msg.username}
+              placeholder={userInfo?.msg?.username}
               onChange={(e) => setName(e.target.value)}
               required
             />

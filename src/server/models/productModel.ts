@@ -39,26 +39,26 @@ const productSchema = new mongoose.Schema(
     },
     imagesURlList: [
       {
-        type:String,
-        required: true
-      }
+        type: String,
+        required: true,
+      },
     ],
-    thumbnail:{
+    thumbnail: {
       type: String,
-      required: true
+      required: true,
     },
-    subCategory:{
+    subCategory: {
       type: String,
-      required:true
+      required: true,
     },
-    amount:{
+    amount: {
       type: Number,
-      required: true
+      required: true,
     },
     isNew: {
       type: Boolean,
       required: true,
-      default: false
+      default: false,
     },
     reviews: [reviewSchema],
     numReviews: {
@@ -73,6 +73,11 @@ const productSchema = new mongoose.Schema(
     },
     category: {
       type: String,
+      required: true,
+    },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
   },

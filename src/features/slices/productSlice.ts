@@ -27,6 +27,13 @@ export const productApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    productRating: builder.mutation({
+      query: (data) => ({
+        url: `/api/products/${data.id}`,
+        method: 'PUT',
+        body: data
+      })
+    })
   }),
 });
 
@@ -35,4 +42,5 @@ export const {
   useGetAllProductQuery,
   useGetProductByIdQuery,
   useUploadImagesMutation,
+  useProductRatingMutation
 } = productApiSlice;

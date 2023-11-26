@@ -1,11 +1,14 @@
+"use client";
 import DisplayLoader from "@/components/Loader/DisplayLoader";
 import UpdateProfile from "@/components/userProfile/UpdateProfile";
 import UserOrders from "@/components/userProfile/UserOrders";
 import UserProfile from "@/components/userProfile/UserProfile";
+import { useSelector } from "react-redux";
 import Image from "next/image";
 import { Suspense } from "react";
 
-async function page({ params }: { params: { id: string } }) {
+function usePage({ params }: { params: { id: string } }) {
+  const { userInfo } = useSelector((state: any) => state.auth);
   return (
     <>
       <div className="w-full bg-amazon_blue h-44 relative">
@@ -22,15 +25,20 @@ async function page({ params }: { params: { id: string } }) {
       <Suspense fallback={<DisplayLoader />}>
         <UserProfile id={params.id} />
       </Suspense>
+      {userInfo?.msg?.role === 'buyer' && (
+        <div>
+          <h1 className="text-lg font-bold pl-5">My Orders</h1>
+          <Suspense fallback={<DisplayLoader />}>
+            <UserOrders id={params.id} />
+          </Suspense>
+        </div>
+      )}
       <div>
-        <h1 className="text-lg font-bold pl-5">My Orders</h1>
-        <Suspense fallback={<DisplayLoader />}>
-          <UserOrders id={params.id} />
-        </Suspense>
+        
       </div>
-        <UpdateProfile id={params.id} />
+      <UpdateProfile id={params.id} />
     </>
   );
 }
 
-export default page;
+export default usePage;

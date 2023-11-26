@@ -2,6 +2,7 @@ import userModel from "@/server/models/userModel";
 import connectDB from "@/server/config/route";
 import { NextRequest, NextResponse } from "next/server";
 
+
 connectDB();
 
 export const GET = async (request: NextRequest, { params }: any) => {

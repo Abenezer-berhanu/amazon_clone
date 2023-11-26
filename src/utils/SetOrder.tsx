@@ -2,9 +2,8 @@
 import { useSelector } from "react-redux";
 import { useCreateOrderMutation } from "../features/slices/orderSliceApi";
 import Button from "@/components/Button/Button";
-import { removeAllCart, storeTemp } from "@/features/slices/cartSlice";
+import { removeAllCart } from "@/features/slices/cartSlice";
 import { useDispatch } from "react-redux";
-import { redirect, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default function SetOrder({ clicked }: any) {
@@ -12,6 +11,7 @@ export default function SetOrder({ clicked }: any) {
   const { cartItems, shippingAddress, additionalFees } = useSelector(
     (state: any) => state.cart
   );
+
   const { userInfo } = useSelector((state: any) => state.auth);
   const [setOrderMutation, { isLoading }] = useCreateOrderMutation();
   const userData = {
@@ -36,6 +36,7 @@ export default function SetOrder({ clicked }: any) {
     taxPrice: additionalFees.tax,
     shippingPrice: additionalFees.shippingFee,
     totalPrice: additionalFees.totalPrice,
+    owner: cartItems.owner ?? "655736a3863e570092ce207c",
     isPaid:
       shippingAddress.paymentMethod === "chapa" ||
       shippingAddress.paymentMethod === "stripe"
@@ -44,13 +45,13 @@ export default function SetOrder({ clicked }: any) {
   };
   async function createOrder() {
     try {
-      await setOrderMutation(userData)
-      dispatch(removeAllCart())
-      toast.success('order have set successfully')
+      await setOrderMutation(userData);
+      dispatch(removeAllCart());
+      toast.success("order have set successfully");
       clicked()
-      return redirect('/')
+      return;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
   return (
@@ -62,9 +63,3 @@ export default function SetOrder({ clicked }: any) {
     </>
   );
 }
-
-    // setOrderMutation(userData)
-    //   .then((x: any) => dispatch(removeAllCart()))
-    //   .then((y) => toast.success("order have set successfully"))
-    //   .then((z: any) => clicked(z.data.msg._id))
-    //   .catch((err) => console.log(err));

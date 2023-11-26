@@ -6,6 +6,7 @@ export interface ProductProps {
   price: number;
   brand: string;
   image: string;
+  thumbnail?: string
   isNew: boolean;
   category: string;
   qty?:number
