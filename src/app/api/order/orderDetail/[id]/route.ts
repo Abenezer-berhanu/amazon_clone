@@ -2,6 +2,8 @@ import connectDB from "@/server/config/route";
 import orderModel from "@/server/models/orderModel";
 import { NextRequest, NextResponse } from "next/server";
 
+connectDB()
+
 export const GET = async (
   req: NextRequest,
   { params }: { params: { id: string } }

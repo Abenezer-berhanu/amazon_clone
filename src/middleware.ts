@@ -34,14 +34,3 @@ export const config = {
   ],
 };
 
-// if (path === "/" && !token) {
-//     return NextResponse.redirect(new URL("/auth/signin", request.url));
-//   } else if (path === "/auth/signin" && token) {
-//     return NextResponse.redirect(new URL("/", request.url));
-//   } else if (path === "/auth/signup" && token) {
-//     return NextResponse.redirect(new URL("/", request.url));
-//   } else if (path === "/product/:path") {
-//     console.log(
-//       "dinamic pageadsljl;ajldjlldjasjdlj sdka;jfdjsajfjaldsjkfljadlksjf;ljdskfj;ladsj;lfj;ldsfj;ljdslfldjfjdslueijiugenjvj.oncvioaneoffnvoakepovadfnsa"
-//     );
-//   }

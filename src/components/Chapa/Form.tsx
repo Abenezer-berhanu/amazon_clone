@@ -1,11 +1,12 @@
 "use client";
 import { useState } from "react";
+import {useSelector} from 'react-redux'
 
 const publicKey = process.env.NEXT_PUBLIC_CHAPA_PUBLIC_KEY;
 const randomRef = Math.random() + Date.now();
 function Form() {
-  let paymentAmount: any = JSON.parse(localStorage.getItem("ab_am_ca_rt")!)
-    .additionalFees.totalPrice;
+  const {additionalFees} = useSelector((state:any)=> state.cart)
+  let paymentAmount: number = additionalFees?.totalPrice
 
   const [Fname, setFname] = useState("");
   const [Lname, setLname] = useState("");

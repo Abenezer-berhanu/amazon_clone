@@ -1,5 +1,4 @@
 "use client";
-import { AiOutlineHeart } from "react-icons/ai";
 import { addToCart } from "@/features/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Prices from "../Prices/Prices";
@@ -32,10 +31,12 @@ function Product({ products }: any) {
     });
   };
 
+  const {userInfo} = useSelector((state:any) => state.auth)
+
   return (
     <div
       key={products._id}
-      className="w-full min-h-[420px] bg-white rounded-md gap-2 group text-black p-4 relative grid border border-slate-300"
+      className="w-full min-h-[420px] bg-white rounded-md gap-2 text-black p-4 relative grid border border-slate-300"
     >
       <div onClick={() => router.push(`/product/${products._id}`)}>
         <Image
@@ -47,11 +48,7 @@ function Product({ products }: any) {
           className="w-full scale-90 h-[150px] object-contain hover:scale-100 duration-300"
         />
       </div>
-      <div className="hidden absolute group-hover:flex left-0 shadow-sm shadow-slate-900 h-[10%] bg-white top-0 border border-slate-300 w-10 justify-between items-center rounded-md">
-        <div className="w-full h-full flex justify-center items-center hover:bg-amazon_yellow text-2xl duration-300">
-          <AiOutlineHeart />
-        </div>
-      </div>
+      
       <SaveAmount
         oldPrice={Number(products.oldPrice)}
         price={Number(products.price)}
@@ -73,6 +70,7 @@ function Product({ products }: any) {
         <button
           className="p-2 h-2/3 w-[50%] mx-auto my-2 rounded-md hover:bg-amazon_yellow hover:text-black sm:font-semibold text-xs sm:text-base duration-300 bg-amazon_blue text-white"
           onClick={() => handleAddToCart(products)}
+          disabled={userInfo?.msg?.role !== "buyer" ? true : false}
         >
           add to cart
         </button>
@@ -80,6 +78,7 @@ function Product({ products }: any) {
           <button
             className="bg-amazon_yellow hover:bg-amazon_yellow_hover rounded-sm duration-200 p-2 text-xs sm:text-sm"
             onClick={handleDec}
+            disabled={userInfo?.msg?.role !== "buyer" ? true : false}
           >
             <AiOutlineMinus />
           </button>
@@ -87,6 +86,7 @@ function Product({ products }: any) {
           <button
             className="bg-amazon_yellow hover:bg-amazon_yellow_hover rounded-sm duration-200 p-2 text-xs sm:text-sm"
             onClick={handleInc}
+            disabled={userInfo?.msg?.role !== "buyer" ? true : false}
           >
             <AiOutlinePlus />
           </button>

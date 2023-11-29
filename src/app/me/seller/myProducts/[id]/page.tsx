@@ -24,7 +24,7 @@ async function MyProducts({params}: any) {
           <p>Price</p>
           <p>Brand</p>
           <p>Updated Date</p>
-          <p>Action</p>
+          <p>Delete</p>
         </div>
         {res?.length > 0 ? (
           res.map((product: any) => {

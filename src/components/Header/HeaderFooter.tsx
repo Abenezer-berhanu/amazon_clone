@@ -21,7 +21,7 @@ function HeaderFooter() {
   };
   return (
     <div className="flex p-3 text-sm items-center gap-3 text-white bg-amazon_light sticky top-20 z-40">
-      {!isLoading && <p className="hidden md:inline-flex cursor-pointer duration300" onClick={() => router.push('/auth/signup')}>Registry</p>}
+      {!isLoading && !userInfo && <p className="hidden md:inline-flex cursor-pointer duration300" onClick={() => router.push('/auth/signup')}>Registry</p>}
       {userInfo && <Button click={handleLogout} text="logout" />}
       <div className="relative w-[150] h-[150] m-auto">
       {isLoading && <Loader />}

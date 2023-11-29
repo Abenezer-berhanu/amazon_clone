@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useRef } from "react";
 import { MdOutlineClear } from "react-icons/md";
 import {
   useCreateProductMutation,
@@ -23,7 +23,9 @@ interface newProductType {
   amount: number;
 }
 
+
 function usePage() {
+  const ref = useRef()
   const [name, setName] = useState<newProductType>({
     title: "",
     description: "",
@@ -113,7 +115,7 @@ function usePage() {
         amount: name.amount,
         imagesURlList: imagesURL,
         thumbnail: res.data.secure_url,
-        owner: userInfo.msg._id,
+        owner: userInfo?.msg._id,
       };
         const { data }: any = await createProduct(productInformations);
         toast.success("product created");
@@ -126,7 +128,7 @@ function usePage() {
 
   return (
     <>
-      {userInfo.msg.role === "seller" ? (
+      {userInfo?.msg.role === "seller" ? (
         <div className="relative max-w-[600px] text-xs md:text-sm md:mx-auto my-5 justify-center items-center border shadow-lg border-slate-300 rounded-md p-3 flex flex-col gap-2">
           {loadingProductCreation || (uploadIsLoading && <DisplayLoader />)}
           <h1 className="font-bold tracking-wider text-lg md:text-xl">
@@ -134,7 +136,9 @@ function usePage() {
           </h1>
           <div className="flex w-full justify-between font-semibold p-2 items-center border border-slate-300 rounded-sm">
             <p>Enter New Product Detail.</p>
-            <button className="flex items-center justify-center px-2 py-1 text-red-400 scale-90 hover:scale-95 duration-300 bg-red-400 bg-opacity-50 hover:text-red-500 hover:bg-opacity-60 rounded-sm">
+            <button className="flex items-center justify-center px-2 py-1 text-red-400 scale-90 hover:scale-95 duration-300 bg-red-400 bg-opacity-50 hover:text-red-500 hover:bg-opacity-60 rounded-sm"
+            onClick={() => ref.current.reset()}
+            >
               <MdOutlineClear className="text-xl" />
               Cancel
             </button>
@@ -144,6 +148,7 @@ function usePage() {
             <form
               className="grid place-items-start w-full flex-shrink-0 gap-1"
               onSubmit={handleSubmit}
+              ref={ref}
             >
               <label htmlFor="title">
                 Product Name <span className="text-red-400">*</span>
@@ -277,7 +282,7 @@ function usePage() {
                     width={200}
                     height={300}
                     click={() => handleRemoveOneImage(index)}
-                    className="h-12 w-20"
+                    className="h-20 w-20 object-cover"
                   />
                 ))}
               </div>

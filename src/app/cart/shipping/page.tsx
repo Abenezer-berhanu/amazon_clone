@@ -18,10 +18,10 @@ function usePage() {
   const [userCity, setUserCity] = useState("");
   const [cities, setCities]: any = useState([]);
 
-  const { cartItems } = useSelector((state: any) => state.cart);
+  const { cartItems, shippingAddress } = useSelector((state: any) => state.cart);
   const { userInfo } = useSelector((state: any) => state.auth);
 
-  const userId = userInfo.msg._id;
+  const userId = userInfo?.msg?._id;
   const shippingInfo = {
     userCountry,
     userName,
@@ -33,8 +33,7 @@ function usePage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const paymentChoise = JSON.parse(localStorage.getItem("ab_am_ca_rt")!)
-      .shippingAddress.paymentMethod;
+    const paymentChoise = shippingAddress?.paymentMethod
     if (paymentChoise === "chapa") {
       router.push("/cart/shipping/payment/chapaPay");
     } else if (paymentChoise === "stripe") {
@@ -52,7 +51,7 @@ function usePage() {
 
   return (
     <>
-      {cartItems.length > 0 && userInfo.msg.role === 'buyer' ? (
+      {cartItems?.length > 0 && userInfo?.msg.role === 'buyer' ? (
         <div className="flex flex-col justify-center gap-4 p-5 items-center">
           <div className="max-w-[900px]">
             {/* payment method */}
@@ -73,12 +72,14 @@ function usePage() {
                 <option
                   value="chapa"
                   className="text-xs font-semibold tracking-wider"
+                  disabled
                 >
                   Chapa
                 </option>
                 <option
                   value="stripe"
                   className="text-xs font-semibold tracking-wider"
+                  disabled
                 >
                   Stripe
                 </option>

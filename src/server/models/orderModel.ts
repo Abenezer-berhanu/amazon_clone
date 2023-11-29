@@ -62,7 +62,7 @@ const orderSchema = new mongoose.Schema(
       default: false,
     },
     owner: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
     paidAt: {

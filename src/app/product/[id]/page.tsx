@@ -50,11 +50,11 @@ function usePage() {
   const handleRatingSubmit = async (e: any) => {
     e.preventDefault();
     const reqBody = {
-      user: userInfo.msg._id,
+      user: userInfo?.msg._id,
       rating,
       comment,
       id: params.id,
-      name: userInfo.msg.username,
+      name: userInfo?.msg.username,
     };
     const res: any = await reviewProductMutation(reqBody);
     if (res.data) {
@@ -141,7 +141,7 @@ function usePage() {
                 Add Review
               </h2>
               <div>
-                {userInfo.msg && userInfo.msg.role === "buyer" ? (
+                {userInfo?.msg && userInfo?.msg.role === "buyer" ? (
                   <form onSubmit={handleRatingSubmit} ref={formRef}>
                     <div className="my-2 grid text-sm font-semibold tracking-wide text-slate-700">
                       <label className="">Rating:</label>
@@ -175,13 +175,13 @@ function usePage() {
                       Add Review
                     </button>
                   </form>
-                ) : userInfo.msg && userInfo.msg.role !== "buyer" ? (
+                ) : userInfo?.msg && userInfo?.msg.role !== "buyer" ? (
                   <div>
                     <h3 className="bg-blue-200 text-slate-700 font-semibold shadow-sm w-[98%] bg-opacity-20 mx-auto mb-2 rounded-sm text-center text-base p-2">
                       only buyer is able to give rating!
                     </h3>
                   </div>
-                ) : userInfo.msg ? (
+                ) : userInfo?.msg ? (
                   <p className="font-serif bg-yellow-200 indent-3 shadow-md">
                     Person who's not logged in can't review products{" "}
                     <Link href="/auth/signin">sign in</Link>
@@ -199,6 +199,7 @@ function usePage() {
                   <button
                     className="bg-amazon_yellow hover:bg-amazon_yellow_hover rounded-sm duration-200 p-2 text-xs sm:text-sm"
                     onClick={handleDec}
+                    disabled={userInfo?.msg?.role !== "buyer" ? true : false}
                   >
                     <AiOutlineMinus />
                   </button>
@@ -206,6 +207,7 @@ function usePage() {
                   <button
                     className="bg-amazon_yellow hover:bg-amazon_yellow_hover rounded-sm duration-200 p-2 text-xs sm:text-sm"
                     onClick={handleInc}
+                    disabled={userInfo?.msg?.role !== "buyer" ? true : false}
                   >
                     <AiOutlinePlus />
                   </button>
@@ -214,15 +216,12 @@ function usePage() {
                 <button
                   className="bg-amazon_yellow rounded-lg text-slate-700 w-3/5 p-1 text-xs sm:text-sm"
                   onClick={() => handleCart(data.msg)}
+                  disabled={userInfo?.msg?.role !== "buyer" ? true : false}
                 >
                   {" "}
                   Add to Cart{" "}
                 </button>
                 <div className="bg-black h-2"></div>
-                <button className="text-slate-700 bg-slate-500 w-3/5 p-1 text-xs sm:text-base">
-                  {" "}
-                  Add to favorite{" "}
-                </button>
               </div>
             </div>
           </div>

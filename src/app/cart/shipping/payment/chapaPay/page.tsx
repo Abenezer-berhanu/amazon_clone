@@ -15,7 +15,7 @@ function usePage() {
           <h2 className="text-xl mdl:text-xl text-slate-700 font-bold tracking-wider font-sans text-center m-2">
             My Products
           </h2>
-          {cartItems.map((item: any) => {
+          {cartItems?.map((item: any) => {
             return (
               <div key={item._id} className="flex justify-center items-center">
                 <Image
