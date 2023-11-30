@@ -25,7 +25,7 @@ interface newProductType {
 
 
 function usePage() {
-  const ref = useRef()
+  const ref:any = useRef()
   const [name, setName] = useState<newProductType>({
     title: "",
     description: "",
@@ -137,7 +137,7 @@ function usePage() {
           <div className="flex w-full justify-between font-semibold p-2 items-center border border-slate-300 rounded-sm">
             <p>Enter New Product Detail.</p>
             <button className="flex items-center justify-center px-2 py-1 text-red-400 scale-90 hover:scale-95 duration-300 bg-red-400 bg-opacity-50 hover:text-red-500 hover:bg-opacity-60 rounded-sm"
-            onClick={() => ref.current.reset()}
+            onClick={() => ref.current?.reset()}
             >
               <MdOutlineClear className="text-xl" />
               Cancel
