@@ -72,7 +72,7 @@ function usePage() {
         <Loader />
       ) : data ? (
         <>
-          <div className={`grid ${data?.msg?.imagesURlList ? 'mdl:grid-cols-8': 'mdl:grid-cols-6'} border gap-2 p-2`}>
+          <div className={`grid ${data?.msg?.imagesURlList ? &apos;mdl:grid-cols-8&apos;: &apos;mdl:grid-cols-6&apos;} border gap-2 p-2`}>
             {data.msg.imagesURlList && (
               <div className="gap-2 p-2 col-span-3 mdl:col-span-1 grid grid-cols-3 mdl:grid-cols-1">
                 {data.msg.imagesURlList.map((image: string, index: number) => (
@@ -183,7 +183,7 @@ function usePage() {
                   </div>
                 ) : userInfo?.msg ? (
                   <p className="font-serif bg-yellow-200 indent-3 shadow-md">
-                    Person who's not logged in can't review products{" "}
+                    Person who&apos;s not logged in can&apos;t review products{" "}
                     <Link href="/auth/signin">sign in</Link>
                   </p>
                 ) : ""}
