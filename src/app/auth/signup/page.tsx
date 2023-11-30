@@ -10,15 +10,6 @@ import { toast } from "react-toastify";
 import { RadioGroup, RadioButton } from "react-radio-buttons";
 import DisplayLoader from "@/components/Loader/DisplayLoader";
 
-interface LoginFormProps {
-  onSubmit: (
-    username: string,
-    password: string,
-    email: string,
-    error: any
-  ) => void;
-}
-
 interface userDataInterface {
   username: string;
   password: string;
@@ -26,7 +17,7 @@ interface userDataInterface {
   role: string;
 }
 
-const LoginForm: React.FC<LoginFormProps> = () => {
+const LoginForm = () => {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
