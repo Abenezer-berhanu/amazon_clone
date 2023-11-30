@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import Rating from "@/components/Rating/Rating";
 
 function usePage() {
-  const formRef:any = useRef();
+  const formRef: any = useRef();
   const dispatch = useDispatch();
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState<string>();
@@ -63,7 +63,7 @@ function usePage() {
     } else {
       toast.error(res.error.data.msg);
     }
-    formRef.current?.reset()
+    formRef.current?.reset();
   };
 
   return (
@@ -72,7 +72,11 @@ function usePage() {
         <Loader />
       ) : data ? (
         <>
-          <div className={`grid ${data?.msg?.imagesURlList ? &apos;mdl:grid-cols-8&apos;: &apos;mdl:grid-cols-6&apos;} border gap-2 p-2`}>
+          <div
+            className={`grid ${
+              data?.msg?.imagesURlList ? "mdl:grid-cols-8" : "mdl:grid-cols-6"
+            } border gap-2 p-2`}
+          >
             {data.msg.imagesURlList && (
               <div className="gap-2 p-2 col-span-3 mdl:col-span-1 grid grid-cols-3 mdl:grid-cols-1">
                 {data.msg.imagesURlList.map((image: string, index: number) => (
@@ -183,10 +187,12 @@ function usePage() {
                   </div>
                 ) : userInfo?.msg ? (
                   <p className="font-serif bg-yellow-200 indent-3 shadow-md">
-                    Person who&apos;s not logged in can&apos;t review products{" "}
+                    Person who&apos;s not logged in can&apos;t review products
                     <Link href="/auth/signin">sign in</Link>
                   </p>
-                ) : ""}
+                ) : (
+                  ""
+                )}
               </div>
             </div>
             <div className="p-3 col-span-4 flex justify-center items-center">
