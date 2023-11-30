@@ -15,9 +15,23 @@ export const POST = async (request: NextRequest) => {
 };
 
 export const GET = async (request: NextRequest) => {
+  const pageNumber = Number(process.env.NEXT_PUBLIC_PAGE_NUMBER);
+  const totalPros = await productModel.countDocuments({});
+  const page = Number(request.nextUrl.searchParams.get("page")) || 1;
   try {
-    const products = await productModel.find({});
-    return NextResponse.json({ msg: products, success: true }, { status: 200 });
+    const products = await productModel
+      .find({})
+      .limit(pageNumber)
+      .skip(pageNumber * (page - 1));
+    return NextResponse.json(
+      {
+        msg: products,
+        page,
+        pages: Math.ceil(totalPros / pageNumber),
+        success: true,
+      },
+      { status: 200 }
+    );
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

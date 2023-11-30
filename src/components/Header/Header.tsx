@@ -26,7 +26,7 @@ function Header() {
   let role: any;
 
   if (userInfo) {
-    role = userInfo?.msg.role === "admin";
+    role = userInfo?.msg.role 
   }
   const id = userInfo?.msg ? userInfo.msg._id : null;
 
@@ -182,7 +182,7 @@ function Header() {
             className="text-4xl mdl:hidden cursor-pointer text-white"
             onClick={() => setDisplayHamburger(!displayHamburger)}
           />
-          <div className="w-full h-20 items-center relative flex">
+          <div className="flex w-full h-20 items-center justify-center relative">
             <Search />
           </div>
           <div className="flex w-full justify-between items-center">

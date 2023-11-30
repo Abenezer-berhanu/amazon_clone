@@ -10,9 +10,14 @@ export const productApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    getAllProduct: builder.query<any, void>({
-      query: () => ({
-        url: "/api/products",
+    getAllProduct: builder.query({
+      query: (page) => ({
+        url: `/api/products?page=${page}`,
+      }),
+    }),
+    getProductsByQuery: builder.query({
+      query: (q) => ({
+        url: `/api/products/query?q=${q}`,
       }),
     }),
     getProductById: builder.query<any, any>({
@@ -30,10 +35,10 @@ export const productApiSlice = apiSlice.injectEndpoints({
     productRating: builder.mutation({
       query: (data) => ({
         url: `/api/products/${data.id}`,
-        method: 'PUT',
-        body: data
-      })
-    })
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -42,5 +47,6 @@ export const {
   useGetAllProductQuery,
   useGetProductByIdQuery,
   useUploadImagesMutation,
-  useProductRatingMutation
+  useProductRatingMutation,
+  useGetProductsByQueryQuery,
 } = productApiSlice;
