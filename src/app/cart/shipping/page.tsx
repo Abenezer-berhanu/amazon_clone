@@ -5,7 +5,8 @@ import { addShippingInfo } from "@/features/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@/components/Button/Button";
 import { useRouter } from "next/navigation";
-import SetOrder from "../../../utils/setOrder";
+import SetOrder from "@/utils/SetOrder";
+
 
 function usePage() {
   const dispatch = useDispatch();
