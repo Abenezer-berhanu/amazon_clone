@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import Rating from "@/components/Rating/Rating";
 
 function usePage() {
-  const formRef = useRef();
+  const formRef:any = useRef();
   const dispatch = useDispatch();
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState<string>();
@@ -63,7 +63,7 @@ function usePage() {
     } else {
       toast.error(res.error.data.msg);
     }
-    formRef.current.reset();
+    formRef.current?.reset()
   };
 
   return (
