@@ -7,7 +7,6 @@ import {
 } from "@/features/slices/userSlice";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { RadioGroup, RadioButton } from "react-radio-buttons";
 import DisplayLoader from "@/components/Loader/DisplayLoader";
 
 interface userDataInterface {
@@ -129,15 +128,27 @@ const LoginForm = () => {
               required
             />
           </div>
-          <div className="my-2 text-slate-950">
-            <RadioGroup onChange={handleOptionChange} required>
-              <RadioButton value="seller">
-                <p className="text-slate-950">Seller</p>
-              </RadioButton>
-              <RadioButton value="buyer">
-                <p className="text-slate-950">Buyer</p>
-              </RadioButton>
-            </RadioGroup>
+          <div className="my-2 text-slate-950 flex justify-around">
+            <span>
+              <input
+                type="radio"
+                value="buyer"
+                name="role"
+                required
+                onChange={(e: any) => handleOptionChange(e)}
+              />{" "}
+              Buyer
+            </span>
+            <span>
+              <input
+                type="radio"
+                value="seller"
+                name="role"
+                required
+                onChange={(e: any) => handleOptionChange(e)}
+              />{" "}
+              Seller
+            </span>
           </div>
           {error && (
             <div>
