@@ -198,7 +198,7 @@ function usePage() {
             <div className="p-3 col-span-4 flex justify-center items-center">
               <div className="shadow-xl duration-300 border border-opacity-10 border-slate-600 hover:shadow-2xl rounded-md flex flex-col items-center w-3/5 gap-2 p-2">
                 <p className="text-xs sm:text:sm text-slate-600 font-semibold mb-3">
-                  To buy, add to cart
+                  To buy add to cart
                 </p>
 
                 <div className="w-[50%] flex justify-around items-center h-2/3 gap-2 sm:gap-0">
@@ -224,8 +224,7 @@ function usePage() {
                   onClick={() => handleCart(data.msg)}
                   disabled={userInfo?.msg?.role !== "buyer" ? true : false}
                 >
-                  {" "}
-                  Add to Cart{" "}
+                  Add to Cart
                 </button>
                 <div className="bg-black h-2"></div>
               </div>
