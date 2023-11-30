@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import {
@@ -14,11 +14,7 @@ import { auth } from "@/utils/firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import DisplayLoader from "@/components/Loader/DisplayLoader";
 
-interface LoginFormProps {
-  onSubmit: (username: string, password: string) => void;
-}
-
-const LoginForm: React.FC<LoginFormProps> = () => {
+const LoginForm = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [signUserIn, { isLoading }] = useLoginUserMutation();
@@ -86,11 +82,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-white relative">
-      {waiting ||
-        isLoading ||
-        (existLoading && (
-          <DisplayLoader />
-        ))}
+      {waiting || isLoading || (existLoading && <DisplayLoader />)}
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-bold text-center">Login</h1>
         <form onSubmit={handleSubmit} className="mt-6">
