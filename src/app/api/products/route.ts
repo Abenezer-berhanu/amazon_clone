@@ -18,9 +18,21 @@ export const GET = async (request: NextRequest) => {
   const pageNumber = Number(process.env.NEXT_PUBLIC_PAGE_NUMBER);
   const totalPros = await productModel.countDocuments({});
   const page = Number(request.nextUrl.searchParams.get("page")) || 1;
+  let categoryQuery: any = request.nextUrl.searchParams.get("category");
+  categoryQuery = categoryQuery.split(" ").join("");
+
+  let keyword = {
+    $or: [
+      { category: { $regex: categoryQuery, $options: "i" } },
+      { name: { $regex: categoryQuery, $options: "i" } },
+      { brand: { $regex: categoryQuery, $options: "i" } },
+      { subCategory: { $regex: categoryQuery, $options: "i" } }
+    ],
+  };
+
   try {
     const products = await productModel
-      .find({})
+      .find(categoryQuery === "all" ? {} : keyword)
       .limit(pageNumber)
       .skip(pageNumber * (page - 1));
     return NextResponse.json(

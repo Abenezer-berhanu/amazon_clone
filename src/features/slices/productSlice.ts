@@ -11,8 +11,12 @@ export const productApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     getAllProduct: builder.query({
-      query: (page) => ({
-        url: `/api/products?page=${page}`,
+      query: ({ page, category }:any) => ({
+        url: `/api/products`,
+        params:{
+          page,
+          category
+        }
       }),
     }),
     getProductsByQuery: builder.query({

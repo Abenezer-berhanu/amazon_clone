@@ -26,7 +26,7 @@ function Header() {
   let role: any;
 
   if (userInfo) {
-    role = userInfo?.msg.role 
+    role = userInfo?.msg.role;
   }
   const id = userInfo?.msg ? userInfo.msg._id : null;
 
@@ -130,30 +130,12 @@ function Header() {
                     My Products
                   </Link>
                 )}
-
                 {role === "admin" && (
                   <Link
-                    href="/admin/users"
+                    href="/admin"
                     className="px-10 py-2 hover:bg-slate-200 duration-200 shadow-sm"
                   >
-                    All Users
-                  </Link>
-                )}
-
-                {role === "admin" && (
-                  <Link
-                    href="/admin/orders"
-                    className="px-10 py-2 hover:bg-slate-200 duration-200 shadow-sm"
-                  >
-                    All Orders
-                  </Link>
-                )}
-                {role === "admin" && (
-                  <Link
-                    href="/admin/products"
-                    className="px-10 py-2 hover:bg-slate-200 duration-200 shadow-sm"
-                  >
-                    All Products
+                    Admin
                   </Link>
                 )}
                 {role === "seller" && (
@@ -254,27 +236,10 @@ function Header() {
 
                       {role === "admin" && (
                         <Link
-                          href="/admin/users"
+                          href="/admin"
                           className="px-10 py-2 hover:bg-slate-200 duration-200 shadow-sm"
                         >
-                          All Users
-                        </Link>
-                      )}
-
-                      {role === "admin" && (
-                        <Link
-                          href="/admin/orders"
-                          className="px-10 py-2 hover:bg-slate-200 duration-200 shadow-sm"
-                        >
-                          All Orders
-                        </Link>
-                      )}
-                      {role === "admin" && (
-                        <Link
-                          href="/admin/products"
-                          className="px-10 py-2 hover:bg-slate-200 duration-200 shadow-sm"
-                        >
-                          All Products
+                          Admin
                         </Link>
                       )}
                       {role === "seller" && (
