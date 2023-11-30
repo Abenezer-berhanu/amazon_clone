@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 function Layout({ children }: { children: ReactNode }) {
   const { userInfo } = useSelector((state: any) => state.auth);
   return (
-    <div className="max-w-[1400px] my-10 px-5 mx-auto">
+    <div className="max-w-[1350px] my-10 px-5 mx-auto">
       {userInfo?.role === "seller" ? (
         children
       ) : (
