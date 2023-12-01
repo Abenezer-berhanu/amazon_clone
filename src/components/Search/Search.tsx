@@ -16,6 +16,7 @@ function Search() {
       router.push(`/search/?search=${query}`);
     }
   };
+  
   return (
     <form
       className="relative w-full h-full flex items-center"

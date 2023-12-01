@@ -3,7 +3,6 @@ import { useState } from "react";
 import logo from "@/Images/amazon_logo.png";
 import Image from "next/image";
 import { MdLocationOn } from "react-icons/md";
-import { AiOutlineSearch } from "react-icons/ai";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import Link from "next/link";
@@ -22,13 +21,14 @@ function Header() {
   );
 
   const { userInfo } = useSelector((state: any) => state.auth);
+  console.log(userInfo)
 
   let role: any;
 
   if (userInfo) {
-    role = userInfo?.msg.role;
+    role = userInfo?.msg?.role;
   }
-  const id = userInfo?.msg ? userInfo.msg._id : null;
+  const id = userInfo?.msg ? userInfo?.msg._id : null;
 
   return (
     <div className="flex w-full justify-between items-center bg-amazon_blue h-20 text-lightText gap-2 mdl:gap-5 px-3 sticky top-0 z-50 bg-opacity-90">
@@ -88,11 +88,11 @@ function Header() {
             <div className="bg-white p-3 text-slate-800 absolute rounded-md flex flex-col gap-3 right-10 top-14">
               <div className="px-2 cursor-default">
                 <p className="text-lg font-sans text-slate-500">
-                  {userInfo.msg.email}
+                  {userInfo?.msg?.email}
                 </p>
                 <span className="flex gap-2 font-semibold">
-                  <p>{userInfo.msg.username}</p>
-                  <p>{userInfo.msg.role}</p>
+                  <p>{userInfo?.msg?.username}</p>
+                  <p>{userInfo?.msg?.role}</p>
                 </span>
               </div>
               <div className="flex flex-col">
