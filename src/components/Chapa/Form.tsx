@@ -14,7 +14,7 @@ function Form() {
   const [amount, setAmount] = useState(paymentAmount);
 
   const handleOrder = () => {
-    console.log("put order here")
+    // console.log("put order here")
   }
 
 

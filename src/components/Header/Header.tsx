@@ -21,7 +21,6 @@ function Header() {
   );
 
   const { userInfo } = useSelector((state: any) => state.auth);
-  console.log(userInfo)
 
   let role: any;
 
